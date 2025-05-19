@@ -24,7 +24,16 @@ function updateButtonStates() {
     stopBtn.disabled = true;
     lapBtn.disabled = true;
     endBtn.disabled = true;
-    resetBtn.disabled = !(laps.length > 0 || hasRunAtLeastOnce);
+
+    const raceSummaryVisible = !document
+      .getElementById("raceSummary")
+      .classList.contains("hidden");
+
+    resetBtn.disabled = !(
+      laps.length > 0 ||
+      raceSummaryVisible ||
+      hasRunAtLeastOnce
+    );
   }
 }
 
@@ -33,16 +42,21 @@ function startTimer() {
 
   hasRunAtLeastOnce = true;
 
+ 
+  if (!document.getElementById("raceSummary").classList.contains("hidden")) {
+    resetTimer();
+  }
+
   if (!startTime) {
     startTime = Date.now();
     lapStartTime = startTime;
   } else {
-    startTime = Date.now() - totalElapsedTime;
-    lapStartTime = Date.now();
+    lapStartTime = Date.now() - (Date.now() - lapStartTime);
   }
 
   timerInterval = setInterval(() => {
     const now = Date.now();
+
     totalElapsedTime = now - startTime;
     const currentLapTime = now - lapStartTime;
 
@@ -98,14 +112,14 @@ function endRace() {
 
   const summaryDetails = document.getElementById("summaryDetails");
   summaryDetails.innerHTML = `
-        <li><strong>Giri Totali:</strong> ${summary.totalLaps}</li>
-        <li><strong>Tempo Totale:</strong> ${formatTime(summary.totalTime)}</li>
-        <li><strong>Miglior Giro:</strong> ${formatTime(summary.bestLap)}</li>
-        <li><strong>Peggior Giro:</strong> ${formatTime(summary.worstLap)}</li>
-        <li><strong>Media Giri:</strong> ${formatTime(
-          Math.ceil(summary.averageLap)
-        )}</li>
-    `;
+    <li><strong>Giri Totali:</strong> ${summary.totalLaps}</li>
+    <li><strong>Tempo Totale:</strong> ${formatTime(summary.totalTime)}</li>
+    <li><strong>Miglior Giro:</strong> ${formatTime(summary.bestLap)}</li>
+    <li><strong>Peggior Giro:</strong> ${formatTime(summary.worstLap)}</li>
+    <li><strong>Media Giri:</strong> ${formatTime(
+      Math.ceil(summary.averageLap)
+    )}</li>
+  `;
 
   document.getElementById("raceSummary").classList.remove("hidden");
   updateButtonStates();
@@ -160,7 +174,7 @@ function renderLaps() {
 
 function formatTime(ms) {
   if (isNaN(ms) || ms < 0) return "00:00:000";
-
+  
   const minutes = Math.floor(ms / 60000)
     .toString()
     .padStart(2, "0");
@@ -168,6 +182,5 @@ function formatTime(ms) {
     .toString()
     .padStart(2, "0");
   const milliseconds = (ms % 1000).toString().padStart(3, "0");
-
   return `${minutes}:${seconds}:${milliseconds}`;
 }
