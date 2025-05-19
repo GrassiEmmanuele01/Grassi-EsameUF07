@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Task Manager - Avanzato</title>
-  <link rel="stylesheet" href="../style/style.css">
-  <link rel="stylesheet" href="../style/01tm.css">
-</head>
-<body>
-  <h1>Task Manager - Avanzato</h1>
-  <input type="text" id="taskInput" placeholder="Inserisci un'attività">
-  <button onclick="addTask()">Aggiungi</button>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager - Avanzato</title>
+    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/01tm.css">
+  </head>
+  <body>
+    <h1>Task Manager - Avanzato</h1>
+    <input type="text" id="taskInput" placeholder="Inserisci un'attività">
+    <button onclick="addTask()">Aggiungi</button>
 
-  <div class="filters">
-    <label>Filtra per stato:</label>
-    <select id="filterStatus" onchange="filterTasks()">
-      <option value="all">Tutti</option>
-      <option value="todo">Da fare</option>
-      <option value="inprogress">In corso</option>
-      <option value="completed">Completata</option>
-    </select>
-    <input type="text" id="searchInput" placeholder="Cerca per nome" oninput="filterTasks()">
-    <button onclick="resetFilters()">Reset Filtri</button>
-  </div>
+    <div class="filters">
+      <label>Filtra per stato:</label>
+      <select id="filterStatus" onchange="filterTasks()">
+        <option value="all">Tutti</option>
+        <option value="todo">Da fare</option>
+        <option value="inprogress">In corso</option>
+        <option value="completed">Completata</option>
+      </select>
+      <input type="text" id="searchInput" placeholder="Cerca per nome" oninput="filterTasks()">
+      <button onclick="resetFilters()">Reset Filtri</button>
+    </div>
 
-  <div class="task-columns">
-    <div class="task-column">
-      <h2>Da Fare</h2>
-      <ul id="todoList"></ul>
+    <div class="task-columns">
+      <div class="task-column">
+        <h2>Da Fare</h2>
+        <ul id="todoList"></ul>
+      </div>
+      <div class="task-column">
+        <h2>In Corso</h2>
+        <ul id="inProgressList"></ul>
+      </div>
+      <div class="task-column">
+        <h2>Completata</h2>
+        <ul id="completedList"></ul>
+      </div>
     </div>
-    <div class="task-column">
-      <h2>In Corso</h2>
-      <ul id="inProgressList"></ul>
-    </div>
-    <div class="task-column">
-      <h2>Completata</h2>
-      <ul id="completedList"></ul>
-    </div>
-  </div>
   
-  <footer class="deleted-footer">
-    <h2>Eliminati</h2>
-    <ul id="deletedList"></ul>
-  </footer>
+    <footer class="deleted-footer">
+      <h2>Eliminati di recente</h2>
+      <ul id="deletedList"></ul>
+    </footer>
 
-  <script src="../js/01tm-advanced.js"></script>
-</body>
+    <script src="../js/01tm-advanced.js"></script>
+  </body>
 </html>
