@@ -1,0 +1,19 @@
+.weather-info {
+    background-color: #ecf0f1;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    max-width: 400px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.weather-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.weather-info h2 {
+    margin-top: 0;
+    color: #2c3e50;
+}
