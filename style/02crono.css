@@ -58,6 +58,22 @@ button {
     background-color: #c0392b;
 }
 
+.btn-lap {
+    background-color: #3498db;
+}
+
+.btn-lap:hover {
+    background-color: #2980b9;
+}
+
+.btn-end {
+    background-color: #8e44ad;
+}
+
+.btn-end:hover {
+    background-color: #732d91;
+}
+
 button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -69,4 +85,37 @@ button:disabled {
 
 .hidden {
     display: none;
+}
+
+#raceSummary {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #ecf0f1;
+    border-radius: 10px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+#raceSummary h2 {
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+#raceSummary ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#raceSummary li {
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.lap-item.best-lap {
+    background-color: #f1c40f;
+    font-weight: bold;
+    border-left: 4px solid #f39c12;
+    color: #2c3e50;
 }
