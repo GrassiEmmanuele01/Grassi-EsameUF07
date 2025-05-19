@@ -87,6 +87,29 @@ function renderTasks(filteredTasks = tasks) {
   });
 }
 
+function updateTask(originalIndex, newName) {
+  if (!newName || newName.trim() === "") {
+    alert("Il nuovo nome dell'attività non può essere vuoto!");
+    return;
+  }
+
+  if (originalIndex >= 0 && originalIndex < tasks.length) {
+    tasks[originalIndex].name = newName.trim();
+    filterTasks();
+  } else {
+    console.error("Indice dell'attività non valido:", originalIndex);
+  }
+}
+
+function changeStatus(originalIndex, newStatus) {
+  if (originalIndex >= 0 && originalIndex < tasks.length) {
+    tasks[originalIndex].status = newStatus;
+    filterTasks();
+  } else {
+    console.error("Indice dell'attività non valido:", originalIndex);
+  }
+}
+
 function removeTask(originalIndex) {
   if (originalIndex >= 0 && originalIndex < tasks.length) {
     const removedTask = tasks.splice(originalIndex, 1)[0];
