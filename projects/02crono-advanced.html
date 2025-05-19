@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Cronometro - Avanzato</title>
+        <link rel="stylesheet" href="../style/style.css">
+        <link rel="stylesheet" href="../style/02crono.css">
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css ">
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron :wght@500&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <h1>Cronometro - Avanzato</h1>
+        <div id="timer">00:00:000</div>
+
+        <div class="controls">
+            <button onclick="startTimer()" class="btn-start"><i class="fas fa-play"></i> Start</button>
+            <button onclick="stopTimer()" class="btn-stop" disabled><i class="fas fa-stop"></i> Stop</button>
+            <button onclick="resetTimer()" class="btn-reset" disabled><i class="fas fa-sync-alt"></i> Reset</button>
+            <button onclick="saveLap()" class="btn-lap" disabled><i class="fas fa-flag-checkered"></i> Giro</button>
+            <button onclick="endRace()" class="btn-end" disabled><i class="fas fa-flag"></i> Fine Corsa</button>
+        </div>
+
+        <div class="laps" id="lapsList"></div>
+
+        <script src="../js/02crono-advanced.js"></script>
+    </body>
+</html>
