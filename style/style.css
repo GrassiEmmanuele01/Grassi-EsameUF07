@@ -57,3 +57,103 @@ input[type="text"] {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     position: relative;
 }
+
+.back-to-home {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 14px;
+    color: #3498db;
+    text-decoration: none;
+}
+
+.back-to-home:hover {
+    text-decoration: underline;
+}
+
+.task-list,
+.laps,
+.weather-info {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #ecf0f1;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.task-item,
+.lap-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.task-item button,
+.lap-item button {
+    background-color: #e74c3c;
+    margin-left: 10px;
+}
+
+.task-item button:hover,
+.lap-item button:hover {
+    background-color: #c0392b;
+}
+
+.filters {
+    margin-top: 20px;
+    text-align: center;
+}
+
+select,
+input[type="text"] {
+    padding: 5px;
+    font-size: 14px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+    margin: 10px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.project-column {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.project-column h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.project-column .button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.project-column button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+}
