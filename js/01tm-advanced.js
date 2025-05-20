@@ -1,8 +1,11 @@
-let taskIdCounter = 1; 
+let taskIdCounter = 1;
 
 const tasks = [];
 const deletedTasks = [];
 
+/**
+ * Aggiunge una nuova attività con stato "todo" se il nome è valido.
+ */
 function addTask() {
   const taskInput = document.getElementById("taskInput");
   const taskName = taskInput.value.trim();
@@ -17,10 +20,21 @@ function addTask() {
   taskInput.value = "";
 }
 
+/**
+ * Trova una task per ID in un array di task.
+ * @param {Array} taskArray - Array di task.
+ * @param {number} taskId - ID della task da trovare.
+ * @returns {Object|undefined} La task trovata o undefined.
+ */
 function findTaskById(taskArray, taskId) {
   return taskArray.find((task) => task.id === taskId);
 }
 
+/**
+ * Modifica il nome di una attività.
+ * @param {number} taskId - ID della task da modificare.
+ * @param {string} newName - Nuovo nome della task.
+ */
 function updateTask(taskId, newName) {
   if (!newName || newName.trim() === "") {
     alert("Il nuovo nome dell'attività non può essere vuoto!");
@@ -36,6 +50,11 @@ function updateTask(taskId, newName) {
   }
 }
 
+/**
+ * Cambia lo stato di una attività.
+ * @param {number} taskId - ID della task.
+ * @param {string} newStatus - Nuovo stato ("todo", "inprogress", "completed").
+ */
 function changeStatus(taskId, newStatus) {
   const task = findTaskById(tasks, taskId);
   if (task) {
@@ -46,6 +65,10 @@ function changeStatus(taskId, newStatus) {
   }
 }
 
+/**
+ * Rimuove una attività e la sposta tra gli eliminati.
+ * @param {number} taskId - ID della task da rimuovere.
+ */
 function removeTask(taskId) {
   const taskIndex = tasks.findIndex((task) => task.id === taskId);
   if (taskIndex !== -1) {
@@ -61,6 +84,10 @@ function removeTask(taskId) {
   }
 }
 
+/**
+ * Ripristina una attività dagli eliminati.
+ * @param {number} taskId - ID della task eliminata da ripristinare.
+ */
 function restoreTask(taskId) {
   const taskIndex = deletedTasks.findIndex((task) => task.id === taskId);
   if (taskIndex !== -1) {
@@ -73,6 +100,10 @@ function restoreTask(taskId) {
   }
 }
 
+/**
+ * Elimina definitivamente una attività dagli eliminati dopo conferma.
+ * @param {number} taskId - ID della task da eliminare definitivamente.
+ */
 function deletePermanently(taskId) {
   if (
     confirm("Sei sicuro di voler rimuovere definitivamente questa attività?")
@@ -87,6 +118,9 @@ function deletePermanently(taskId) {
   }
 }
 
+/**
+ * Filtra le attività per stato e ricerca.
+ */
 function filterTasks() {
   const filterStatus = document.getElementById("filterStatus").value;
   const searchQuery = document
@@ -110,12 +144,19 @@ function filterTasks() {
   renderTasks(filteredTasks);
 }
 
+/**
+ * Reimposta i filtri di stato e ricerca.
+ */
 function resetFilters() {
   document.getElementById("filterStatus").value = "all";
   document.getElementById("searchInput").value = "";
   filterTasks();
 }
 
+/**
+ * Aggiorna la visualizzazione delle attività filtrate per stato e ricerca.
+ * @param {Array} [filteredTasks=tasks] - Lista delle attività da visualizzare.
+ */
 function renderTasks(filteredTasks = tasks) {
   const todoList = document.getElementById("todoList");
   const inProgressList = document.getElementById("inProgressList");
@@ -205,6 +246,11 @@ function renderTasks(filteredTasks = tasks) {
   }
 }
 
+/**
+ * Restituisce la stringa leggibile per lo stato di una task.
+ * @param {string} status - Stato della task.
+ * @returns {string} Stato leggibile.
+ */
 function formatStatus(status) {
   switch (status) {
     case "todo":

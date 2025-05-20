@@ -21,6 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
   loadFamousCitiesWeather();
 });
 
+/**
+ * Ottiene la posizione dell'utente e mostra il meteo locale.
+ */
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(fetchLocalWeather, handleError);
@@ -29,12 +32,20 @@ function getLocation() {
   }
 }
 
+/**
+ * Gestisce gli errori di geolocalizzazione.
+ * @param {PositionError} error - Oggetto errore.
+ */
 function handleError(error) {
   console.error("Errore di geolocalizzazione:", error.message);
   document.getElementById("weatherInfo").textContent =
     "Impossibile ottenere la posizione.";
 }
 
+/**
+ * Ottiene il meteo locale per la posizione fornita.
+ * @param {GeolocationPosition} position - Oggetto posizione.
+ */
 async function fetchLocalWeather(position) {
   const latitude = position.coords.latitude;
   const longitude = position.coords.longitude;
@@ -54,6 +65,12 @@ async function fetchLocalWeather(position) {
   }
 }
 
+/**
+ * Recupera il nome della città tramite reverse geocoding.
+ * @param {number} lat - Latitudine.
+ * @param {number} lon - Longitudine.
+ * @returns {Promise<string>} Nome della città o località.
+ */
 async function reverseGeocode(lat, lon) {
   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
 
@@ -76,6 +93,11 @@ async function reverseGeocode(lat, lon) {
   }
 }
 
+/**
+ * Visualizza i dati meteo locali.
+ * @param {Object} data - Dati meteo.
+ * @param {string} city - Nome della città.
+ */
 function displayLocalWeather(data, city) {
   const current = data.current;
   const weatherCode = current.weather_code;
@@ -94,6 +116,9 @@ function displayLocalWeather(data, city) {
   document.getElementById("weatherInfo").innerHTML = weatherInfo;
 }
 
+/**
+ * Carica e visualizza il meteo per le città famose.
+ */
 async function loadFamousCitiesWeather() {
   const container = document.getElementById("famousCities");
 
