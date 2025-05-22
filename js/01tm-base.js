@@ -22,7 +22,7 @@ function addTask() {
   tasks.push(name);
   saveToLocalStorage();
   renderTasks();
-  taskInput.value = "";
+  input.value = "";
 }
 
 /**
