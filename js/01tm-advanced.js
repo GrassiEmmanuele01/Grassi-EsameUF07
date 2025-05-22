@@ -1,23 +1,33 @@
-let taskIdCounter = 1;
+// Inizializzazione ID counter e liste
+let taskIdCounter =
+  parseInt(localStorage.getItem("taskIdCounterAdvanced")) || 1;
+let tasks = JSON.parse(localStorage.getItem("tasksAdvanced")) || [];
+let deletedTasks =
+  JSON.parse(localStorage.getItem("deletedTasksAdvanced")) || [];
 
-const tasks = [];
-const deletedTasks = [];
+/**
+ * Salva lo stato corrente delle liste su localStorage
+ */
+function saveToLocalStorage() {
+  localStorage.setItem("tasksAdvanced", JSON.stringify(tasks));
+  localStorage.setItem("deletedTasksAdvanced", JSON.stringify(deletedTasks));
+  localStorage.setItem("taskIdCounterAdvanced", taskIdCounter);
+}
 
 /**
  * Aggiunge una nuova attività con stato "todo" se il nome è valido.
  */
 function addTask() {
-  const taskInput = document.getElementById("taskInput");
-  const taskName = taskInput.value.trim();
-
-  if (taskName === "") {
-    alert("Inserisci un nome valido per l'attività!");
+  const input = document.getElementById("taskInput");
+  const name = input.value.trim();
+  if (!name) {
+    alert("Inserisci un nome valido!");
     return;
   }
-
-  tasks.push({ id: taskIdCounter++, name: taskName, status: "todo" });
+  tasks.push({ id: taskIdCounter++, name, status: "todo" });
   filterTasks();
-  taskInput.value = "";
+  saveToLocalStorage();
+  input.value = "";
 }
 
 /**
@@ -34,9 +44,10 @@ function findTaskById(taskArray, taskId) {
  * Modifica il nome di una attività.
  * @param {number} taskId - ID della task da modificare.
  * @param {string} newName - Nuovo nome della task.
- */
+ *  */
 function updateTask(taskId, newName) {
-  if (!newName || newName.trim() === "") {
+  newName = newName?.trim();
+  if (!newName) {
     alert("Il nuovo nome dell'attività non può essere vuoto!");
     return;
   }
@@ -45,6 +56,7 @@ function updateTask(taskId, newName) {
   if (task) {
     task.name = newName.trim();
     filterTasks();
+    saveToLocalStorage();
   } else {
     console.error("Attività non trovata con ID:", taskId);
   }
@@ -57,11 +69,16 @@ function updateTask(taskId, newName) {
  */
 function changeStatus(taskId, newStatus) {
   const task = findTaskById(tasks, taskId);
-  if (task) {
+  if (task && ["todo", "inprogress", "completed"].includes(newStatus)) {
     task.status = newStatus;
     filterTasks();
+    saveToLocalStorage();
   } else {
-    console.error("Attività non trovata con ID:", taskId);
+    console.error(
+      "Stato non valido o attività non trovata:",
+      taskId,
+      newStatus
+    );
   }
 }
 
@@ -78,6 +95,7 @@ function removeTask(taskId) {
       originalStatus: removedTask.status,
       status: "eliminato",
     });
+    saveToLocalStorage();
     filterTasks();
   } else {
     console.error("Attività non trovata con ID:", taskId);
@@ -94,6 +112,7 @@ function restoreTask(taskId) {
     const restoredTask = deletedTasks.splice(taskIndex, 1)[0];
     restoredTask.status = restoredTask.originalStatus;
     tasks.push(restoredTask);
+    saveToLocalStorage();
     filterTasks();
   } else {
     console.error("Attività eliminata non trovata con ID:", taskId);
@@ -111,6 +130,7 @@ function deletePermanently(taskId) {
     const taskIndex = deletedTasks.findIndex((task) => task.id === taskId);
     if (taskIndex !== -1) {
       deletedTasks.splice(taskIndex, 1);
+      saveToLocalStorage();
       filterTasks();
     } else {
       console.error("Attività eliminata non trovata con ID:", taskId);
@@ -168,6 +188,14 @@ function renderTasks(filteredTasks = tasks) {
   completedList.innerHTML = "";
   deletedList.innerHTML = "";
 
+
+  filteredTasks.forEach((task) => {
+    if (!["todo", "inprogress", "completed"].includes(task.status)) {
+      console.warn("Stato sconosciuto rilevato:", task);
+    }
+  });
+
+
   filteredTasks.forEach((task) => {
     const listItem = document.createElement("li");
     listItem.className = `status-${task.status}`;
@@ -193,9 +221,9 @@ function renderTasks(filteredTasks = tasks) {
         }
       </div>
       <div class="button-row">
-        <button class="edit-task" onclick="updateTask(${
+        <button class="edit-task" onclick="promptUpdate(${
           task.id
-        }, prompt('Nuovo nome:', '${task.name}'))">Modifica ✏️</button>
+        })">Modifica ✏️</button>
         <button class="remove-task" onclick="removeTask(${
           task.id
         })">Rimuovi ❌</button>
@@ -213,36 +241,39 @@ function renderTasks(filteredTasks = tasks) {
         completedList.appendChild(listItem);
         break;
       default:
-        console.error("Stato dell'attività non riconosciuto:", task.status);
+        deletedList.appendChild(listItem); // incluso negli eliminati
     }
   });
 
-  const filterStatus = document.getElementById("filterStatus").value;
-  const searchQuery = document.getElementById("searchInput").value.trim();
+  // Mostra anche gli eliminati se necessario
+  deletedTasks.forEach((task) => {
+    const deletedItem = document.createElement("li");
+    deletedItem.className = "status-eliminato";
+    deletedItem.innerHTML = `
+      <span>${task.name} (Eliminato da: ${formatStatus(
+      task.originalStatus
+    )})</span>
+      <div class="button-row">
+        <button class="restore-task" onclick="restoreTask(${
+          task.id
+        })">Ripristina 🔄</button>
+        <button class="delete-permanently" onclick="deletePermanently(${
+          task.id
+        })">Rimuovi definitivamente 🗑️</button>
+      </div>
+    `;
+    deletedList.appendChild(deletedItem);
+  });
+}
 
-  if (
-    filterStatus === "eliminato" ||
-    (filterStatus === "all" && searchQuery === "") ||
-    searchQuery !== ""
-  ) {
-    deletedTasks.forEach((task) => {
-      const deletedItem = document.createElement("li");
-      deletedItem.className = "status-eliminato";
-      deletedItem.innerHTML = `
-        <span>${task.name} (Eliminato da: ${formatStatus(
-        task.originalStatus
-      )})</span>
-        <div class="button-row">
-          <button class="restore-task" onclick="restoreTask(${
-            task.id
-          })">Ripristina 🔄</button>
-          <button class="delete-permanently" onclick="deletePermanently(${
-            task.id
-          })">Rimuovi definitivamente 🗑️</button>
-        </div>
-      `;
-      deletedList.appendChild(deletedItem);
-    });
+/**
+ * Prompt personalizzato per la modifica
+ */
+function promptUpdate(taskId) {
+  const task = findTaskById(tasks, taskId);
+  if (task) {
+    const newName = prompt("Nuovo nome:", task.name);
+    if (newName) updateTask(taskId, newName);
   }
 }
 
@@ -263,3 +294,13 @@ function formatStatus(status) {
       return "Sconosciuto";
   }
 }
+
+/**
+ * Inizializza la pagina al caricamento del DOM,
+ * richiamando la funzione che filtra e visualizza le attività.
+ *
+ * @listens document:DOMContentLoaded
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  filterTasks();
+});
