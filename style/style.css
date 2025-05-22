@@ -58,6 +58,11 @@ input[type="text"] {
     position: relative;
 }
 
+.container h2, ul {
+    list-style-type: none;
+    text-align: center;
+}
+
 .back-to-home {
     position: absolute;
     top: 10px;

@@ -30,8 +30,15 @@
         <button onclick="resetTimer()" class="btn-reset" disabled>
           <i class="fas fa-sync-alt"></i> Reset
         </button>
+        <button onclick="saveTime()" class="btn-lap" disabled>
+          <i class="fas fa-save"></i> Salva tempo
+        </button>
     </div>
 
+    <div id="savedTimesContainer" class="hidden">
+        <h2>Storico Tempi Salvati</h2>
+        <ul id="savedTimesList"></ul>
+    </div>
     <script src="../js/02crono-base.js"></script>
   </body>
 </html>
