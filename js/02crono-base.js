@@ -1,7 +1,8 @@
 let timerInterval;
 let seconds = 0;
-let savedTimes = []; 
-let canSaveTime = false; 
+
+let savedTimes = JSON.parse(localStorage.getItem("savedTimesBase")) || [];
+let deletedTimes = JSON.parse(localStorage.getItem("deletedTimesBase")) || [];
 
 // Riferimenti ai pulsanti
 const startBtn = document.querySelector(".btn-start");
@@ -10,20 +11,31 @@ const resetBtn = document.querySelector(".btn-reset");
 const saveBtn = document.querySelector(".btn-lap"); 
 
 /**
+ * Salva i dati nel localStorage.
+ */
+function saveToLocalStorage() {
+  localStorage.setItem("savedTimesBase", JSON.stringify(savedTimes));
+  localStorage.setItem("deletedTimesBase", JSON.stringify(deletedTimes));
+}
+
+/**
  * Aggiorna lo stato dei pulsanti Start, Stop, Reset e Salva tempo.
  */
 function updateButtonStates() {
   if (timerInterval) {
+    // Cronometro in esecuzione
     startBtn.disabled = true;
     stopBtn.disabled = false;
     resetBtn.disabled = true;
-    saveBtn.disabled = true;
+    saveBtn.disabled = true; // Disabilita "Salva tempo"
   } else {
+    // Cronometro fermo
     startBtn.disabled = false;
     stopBtn.disabled = true;
     resetBtn.disabled = seconds === 0;
 
-    saveBtn.disabled = !canSaveTime || seconds === 0;
+    // Abilita "Salva tempo" solo se ci sono secondi salvati
+    saveBtn.disabled = seconds === 0;
   }
 }
 
@@ -38,8 +50,6 @@ function startTimer() {
     updateTimer();
   }, 1000);
 
-  canSaveTime = false;
-
   updateButtonStates();
 }
 
@@ -49,8 +59,6 @@ function startTimer() {
 function stopTimer() {
   clearInterval(timerInterval);
   timerInterval = null;
-
-  canSaveTime = true;
 
   updateButtonStates();
 }
@@ -63,8 +71,6 @@ function resetTimer() {
   seconds = 0;
   updateTimer();
 
-  canSaveTime = false;
-
   updateButtonStates();
 }
 
@@ -72,18 +78,19 @@ function resetTimer() {
  * Salva il tempo corrente nel cronometro.
  */
 function saveTime() {
-  if (!canSaveTime || seconds === 0) return; 
+  if (seconds === 0) return; // Non salvare se il timer è a zero
 
-  const currentTime = formatTime(seconds); 
-  savedTimes.push(currentTime); 
+  const currentTime = formatTime(seconds); // Ottieni il tempo formattato
+  savedTimes.push(currentTime); // Aggiungi il tempo all'array
 
+  // Salva i dati nel localStorage
+  saveToLocalStorage();
+
+  // Aggiorna la visualizzazione dello storico
   updateSavedTimesList();
 
-  document.getElementById("savedTimesContainer").classList.remove("hidden");
-  document.getElementById("savedTimesContainer").classList.add("container");
 
-  canSaveTime = false;
-
+  // Disabilita il pulsante "Salva tempo"
   saveBtn.disabled = true;
 }
 
@@ -103,14 +110,47 @@ function formatTime(totalSeconds) {
  */
 function updateSavedTimesList() {
   const list = document.getElementById("savedTimesList");
-  list.innerHTML = "";
+  list.innerHTML = ""; // Pulisce la lista
 
   savedTimes.forEach((time, index) => {
     const listItem = document.createElement("li");
-    listItem.textContent = `#${index + 1}: ${time}`;
+
+    // Testo del tempo
+    const timeText = document.createElement("span");
+    timeText.textContent = `#${index + 1}: ${time}`;
+
+    // Pulsante "Elimina"
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Elimina";
+    deleteButton.onclick = () => deleteSavedTime(index);
+
+    // Aggiungi al listItem
+    listItem.appendChild(timeText);
+    listItem.appendChild(deleteButton);
+
+    // Aggiungi alla lista
     list.appendChild(listItem);
   });
 }
+
+/**
+ * Elimina un tempo salvato.
+ */
+function deleteSavedTime(index) {
+  if (index >= 0 && index < savedTimes.length) {
+    const [deletedTime] = savedTimes.splice(index, 1); // Rimuove il tempo dall'array
+    deletedTimes.push(deletedTime); // Aggiunge il tempo eliminato all'array deletedTimes
+
+    // Salva i dati nel localStorage
+    saveToLocalStorage();
+
+    // Aggiorna la visualizzazione dello storico
+    updateSavedTimesList();
+  }
+}
+
+// Carica i tempi salvati dal localStorage all'avvio della pagina
+updateSavedTimesList();
 
 /**
  * Aggiorna la visualizzazione del timer nel formato mm:ss.
