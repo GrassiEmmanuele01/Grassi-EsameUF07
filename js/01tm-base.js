@@ -1,19 +1,26 @@
-const tasks = [];
-const deletedTasks = [];
+let tasks = JSON.parse(localStorage.getItem("tasksBase")) || [];
+let deletedTasks = JSON.parse(localStorage.getItem("deletedTasksBase")) || [];
+
+/**
+ * Salva le liste nel localStorage
+ */
+function saveToLocalStorage() {
+  localStorage.setItem("tasksBase", JSON.stringify(tasks));
+  localStorage.setItem("deletedTasksBase", JSON.stringify(deletedTasks));
+}
 
 /**
  * Aggiunge una nuova attività alla lista principale se il nome è valido.
  */
 function addTask() {
-  const taskInput = document.getElementById("inputTask");
-  const taskName = taskInput.value.trim();
-
-  if (taskName === "") {
-    alert("Inserisci un nome valido per l'attività!");
+  const input = document.getElementById("inputTask");
+  const name = input.value.trim();
+  if (!name) {
+    alert("Inserisci un nome valido!");
     return;
   }
-
-  tasks.push(taskName);
+  tasks.push(name);
+  saveToLocalStorage();
   renderTasks();
   taskInput.value = "";
 }
@@ -25,6 +32,7 @@ function addTask() {
 function removeTask(index) {
   const removedTask = tasks.splice(index, 1)[0];
   deletedTasks.push(removedTask);
+  saveToLocalStorage();
   renderTasks();
 }
 
@@ -35,6 +43,7 @@ function removeTask(index) {
 function restoreTask(deletedIndex) {
   const restoredTask = deletedTasks.splice(deletedIndex, 1)[0];
   tasks.push(restoredTask);
+  saveToLocalStorage();
   renderTasks();
 }
 
@@ -84,3 +93,13 @@ function renderTasks() {
     deletedList.appendChild(deletedItem);
   });
 }
+
+/**
+ * Inizializza la pagina al caricamento del DOM, 
+ * richiamando la funzione che aggiorna la visualizzazione delle attività.
+ * 
+ * @listens document:DOMContentLoaded
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  renderTasks();
+});
