@@ -142,6 +142,7 @@ function updateSavedTimesList() {
     const actionsColumn = document.createElement("span");
     actionsColumn.className = "column actions";
     const deleteButton = document.createElement("button");
+    deleteButton.className = "delete";
     deleteButton.textContent = "Elimina";
     deleteButton.onclick = () => deleteSavedTime(index);
     actionsColumn.appendChild(deleteButton);
@@ -161,7 +162,9 @@ function updateSavedTimesList() {
  * @param {number} index - Indice del tempo da eliminare.
  */
 function deleteSavedTime(index) {
-  if (index >= 0 && index < savedTimes.length) {
+  const isConfirmed = confirm("Sei sicuro di voler eliminare questo tempo?");
+  
+  if (isConfirmed && index >= 0 && index < savedTimes.length) {
     const [deletedEntry] = savedTimes.splice(index, 1);
     deletedTimes.push(deletedEntry);
 
