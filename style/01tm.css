@@ -1,17 +1,22 @@
-/* VERSIONE BASE */
+/* Task List Base */
 .task-list {
     background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    padding: 20px;
     border: 1px solid #ddd;
-    margin-top: 20px;
+    margin-top: 30px;
+    transition: box-shadow 0.3s ease;
+}
+
+.task-list:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
 .task-list h2 {
     font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #2c3e50;
+    margin-bottom: 12px;
+    color: #1e272e;
     text-align: center;
 }
 
@@ -30,41 +35,50 @@
     padding: 12px 16px;
     margin-bottom: 10px;
     border-radius: 6px;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
     border-left: 5px solid transparent;
 }
 
 .task-item:hover {
     background-color: #ecf0f1;
+    transform: translateX(-3px);
 }
 
-/* VERSIONE AVANZATA */
+.task-item button {
+    font-size: 12px;
+    padding: 6px 10px;
+    margin-left: 5px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+/* Versione Avanzata - Task Columns */
 .task-columns {
     display: flex;
     justify-content: space-between;
     gap: 20px;
-    margin-top: 20px;
+    margin-top: 30px;
+    flex-wrap: wrap;
 }
 
 .task-column {
     background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    padding: 20px;
     border: 1px solid #ddd;
     flex: 1;
-    min-width: 20%;
+    min-width: 250px;
+    transition: box-shadow 0.3s ease;
+}
+
+.task-column:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
 .task-column h2 {
     font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #2c3e50;
-}
-
-.task-column ul {
-    list-style-type: none;
-    padding: 0;
+    margin-bottom: 12px;
+    color: #1e272e;
 }
 
 .task-column li {
@@ -75,24 +89,15 @@
     padding: 12px 16px;
     margin-bottom: 10px;
     border-radius: 6px;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
     border-left: 5px solid transparent;
 }
 
 .task-column li:hover {
     background-color: #ecf0f1;
+    transform: translateX(-3px);
 }
 
-.task-column li .task-actions button {
-    font-size: 12px;
-    padding: 6px 10px;
-    margin-left: 5px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-/* TASKS */
 .task-column li.status-todo {
     border-left-color: #e74c3c;
 }
@@ -105,25 +110,25 @@
     border-left-color: #2ecc71;
 }
 
-/* BOTTONI */
-button.add-task {
-    background-color: #3498db;
+/* Bottoni distintivi */
+button.add-task,
+button.edit-task,
+button.restore-task {
+    background-color: #27aeef;
 }
 
 button.reset-filters {
     background-color: #f1c40f;
-}
-
-button.edit-task {
-    background-color: #3498db;
+    color: #2d3436;
 }
 
 button.todo {
-    background-color: #0000b0;
+    background-color: #e74c3c;
 }
 
 button.inprogress {
     background-color: #f1c40f;
+    color: #2d3436;
 }
 
 button.completed {
@@ -132,10 +137,6 @@ button.completed {
 
 button.remove-task {
     background-color: #e74c3c;
-}
-
-button.restore-task {
-    background-color: #3498db;
 }
 
 button.delete-permanently {
@@ -148,30 +149,26 @@ button.disabled {
     cursor: not-allowed;
 }
 
-button.disabled:hover {
-    transform: none;
-}
-
-/* ELIMINATI DI RECENTE */
+/* Sezione Eliminati */
 .deleted-footer {
     background-color: #ffebee;
     border: 1px solid #ffcdd2;
-    padding: 15px;
-    margin-top: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 0.3s ease;
+}
+
+.deleted-footer:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
 .deleted-footer h2 {
     font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #e53935;
+    margin-bottom: 12px;
+    color: #c62828;
     text-align: center;
-}
-
-.deleted-footer ul {
-    list-style-type: none;
-    padding: 0;
 }
 
 .deleted-footer li {
@@ -182,7 +179,7 @@ button.disabled:hover {
     padding: 12px 16px;
     margin-bottom: 10px;
     border-radius: 6px;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
     border-left: 5px solid #e53935;
 }
 
