@@ -262,21 +262,23 @@ function renderSavedSessions(sessions = savedSessions) {
   list.innerHTML = "";
 
   sessions.forEach((session, index) => {
-    const row = document.createElement("tr");
+      const row = document.createElement("tr");
 
-    row.innerHTML = `
-            <td>${session.name}</td>
-            <td>${new Date(session.date).toLocaleString()}</td>
-            <td>${session.totalTime}</td>
-            <td>${session.totalLaps}</td>
-            <td>${session.bestLap}</td>
-            <td class="actions">
-                <button class="view" onclick="viewSessionDetails(${index})">Visualizza</button>
-                <button class="delete" onclick="deleteSession(${index})">Elimina</button>
-            </td>
-        `;
+      row.innerHTML = `
+          <td>${session.name}</td>
+          <td>${new Date(session.date).toLocaleString()}</td>
+          <td>${session.totalTime}</td>
+          <td>${session.totalLaps}</td>
+          <td>${session.bestLap}</td>
+          <td class="actions">
+              <button class="view" onclick="viewSessionDetails(${index})"><i class="fas fa-eye"></i> Visualizza</button>
+              <button class="edit" onclick="editSessionName(${index})"><i class="fas fa-edit"></i> Modifica</button>
+              <button class="delete" onclick="deleteSession(${index})"><i class="fas fa-trash-alt"></i> Elimina</button>
+              <button class="download" onclick="downloadSingleSession(${index})"><i class="fas fa-download"></i> Scarica</button>
+          </td>
+      `;
 
-    list.appendChild(row);
+      list.appendChild(row);
   });
 }
 
@@ -405,7 +407,7 @@ function exportAllSessions() {
   a.download = "session_history.json"; 
   document.body.appendChild(a);
   a.click();
-  
+
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
@@ -422,4 +424,34 @@ function deleteSession(index) {
     localStorage.setItem("sessions", JSON.stringify(savedSessions)); 
     renderSavedSessions(); 
   }
+}
+
+/**
+ * Modifica il nome di una sessione.
+ */
+function editSessionName(index) {
+  const newName = prompt("Inserisci il nuovo nome per questa sessione:");
+  if (newName && newName.trim() !== "") {
+      savedSessions[index].name = newName.trim();
+      localStorage.setItem("sessions", JSON.stringify(savedSessions));
+      renderSavedSessions();
+  } else {
+      alert("Il nome non può essere vuoto.");
+  }
+}
+
+/**
+ * Scarica il JSON di una singola sessione.
+ */
+function downloadSingleSession(index) {
+  const session = savedSessions[index];
+  const fileName = `${session.name}_${session.date.replace(/[:T]/g, "-").split(".")[0]}.json`;
+  const blob = new Blob([JSON.stringify(session, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName;
+  a.click();
+  URL.revokeObjectURL(url);
 }

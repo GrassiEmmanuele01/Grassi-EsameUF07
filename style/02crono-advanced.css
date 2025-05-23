@@ -190,7 +190,6 @@ button:disabled {
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 15px;
-    max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
     text-align: left;
@@ -230,6 +229,7 @@ button:disabled {
     font-weight: bold;
     position: relative;
     transition: background-color 0.3s ease;
+    text-align: center ;
 }
 
 #sessionsTable th:hover {
@@ -266,8 +266,9 @@ button:disabled {
 }
 
 #sessionsTable .actions {
-    display: flex;
     gap: 10px;
+    max-width: 250px;
+    text-align: center;
 }
 
 #sessionsTable .actions button {
@@ -290,6 +291,15 @@ button:disabled {
 
 #sessionsTable .actions button:hover {
     opacity: 0.9;
+}
+
+/* Stili per i pulsanti Modifica e Scarica */
+#sessionsTable .actions button.edit {
+    background-color: #f39c12;
+}
+
+#sessionsTable .actions button.download {
+    background-color: #27ae60;
 }
 
 /* Barra di ricerca */
