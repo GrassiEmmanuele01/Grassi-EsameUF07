@@ -1,4 +1,3 @@
-// Variabili globali
 let timerInterval;
 let startTime = null;
 let lapStartTime = null;
@@ -8,8 +7,208 @@ let hasRunAtLeastOnce = false;
 const laps = [];
 let savedSessions = JSON.parse(localStorage.getItem("sessions")) || [];
 
-let sortOrder = {}; // Tieni traccia dell'ordine corrente (ascendente/descendente)
+let sortOrder = {};
+/**
+ * Aggiorna lo stato dei pulsanti in base allo stato del cronometro.
+ */
+function updateButtonStates() {
+  const startBtn = document.querySelector(".btn-start");
+  const stopBtn = document.querySelector(".btn-stop");
+  const resetBtn = document.querySelector(".btn-reset");
+  const lapBtn = document.querySelector(".btn-lap");
+  const endBtn = document.querySelector(".btn-end");
+  const saveBtn = document.querySelector(".btn-save");
 
+  if (timerInterval) {
+    startBtn.disabled = true;
+    stopBtn.disabled = false;
+    lapBtn.disabled = false;
+    endBtn.disabled = false;
+    resetBtn.disabled = true;
+    saveBtn.disabled = true;
+  } else {
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
+    lapBtn.disabled = true;
+    endBtn.disabled = true;
+
+    const raceSummaryVisible = !document
+      .getElementById("raceSummary")
+      .classList.contains("hidden");
+
+    resetBtn.disabled = !(laps.length > 0 || raceSummaryVisible || hasRunAtLeastOnce);
+
+    saveBtn.disabled = !raceSummaryVisible;
+  }
+}
+
+/**
+ * Avvia il cronometro. Se è già in corso una corsa precedente, la resetta.
+ */
+function startTimer() {
+  if (timerInterval) return;
+
+  hasRunAtLeastOnce = true;
+
+  if (!document.getElementById("raceSummary").classList.contains("hidden")) {
+    resetTimer();
+  }
+
+  if (!startTime) {
+    startTime = Date.now();
+    lapStartTime = startTime;
+  } else {
+    lapStartTime = Date.now() - (Date.now() - lapStartTime);
+  }
+
+  timerInterval = setInterval(() => {
+    const now = Date.now();
+
+    totalElapsedTime = now - startTime;
+    const currentLapTime = now - lapStartTime;
+
+    updateTimer(totalElapsedTime);
+    updateLapTimer(currentLapTime);
+  }, 10);
+
+  updateButtonStates();
+}
+
+/**
+ * Ferma il cronometro e aggiorna lo stato dei pulsanti.
+ */
+function stopTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  updateButtonStates();
+}
+
+/**
+ * Reimposta il cronometro e la visualizzazione.
+ */
+function resetTimer() {
+  stopTimer();
+  startTime = null;
+  lapStartTime = null;
+  totalElapsedTime = 0;
+  hasRunAtLeastOnce = false;
+
+  updateTimer(0);
+  updateLapTimer(0);
+  document.getElementById("totalTimeDisplay").textContent = "00:00:000";
+  document.getElementById("bestLap").textContent = "--:--:---";
+  document.getElementById("lapsList").innerHTML = "";
+  document.getElementById("raceSummary").classList.add("hidden");
+  document.getElementById("summaryDetails").innerHTML = "";
+  laps.length = 0;
+
+  updateButtonStates();
+}
+
+/**
+ * Salva il tempo del giro corrente e aggiorna la lista dei giri.
+ */
+function saveLap() {
+  const now = Date.now();
+  const lapTime = now - lapStartTime;
+
+  if (lapTime <= 0) return;
+
+  laps.push(lapTime);
+  lapStartTime = now;
+
+  renderLaps();
+}
+
+/**
+ * Termina la corsa, mostra il riepilogo e ferma il cronometro.
+ */
+function endRace() {
+  saveLap(); 
+  stopTimer();
+
+  const summary = calculateRaceSummary();
+  const summaryDetails = document.getElementById("summaryDetails");
+  summaryDetails.innerHTML = `
+      <li><strong>Giri Totali:</strong> ${summary.totalLaps}</li>
+      <li><strong>Tempo Totale:</strong> ${formatTime(summary.totalTime)}</li>
+      <li><strong>Miglior Giro:</strong> ${formatTime(summary.bestLap)}</li>
+      <li><strong>Peggior Giro:</strong> ${formatTime(summary.worstLap)}</li>
+      <li><strong>Media Giri:</strong> ${formatTime(Math.ceil(summary.averageLap))}</li>
+  `;
+
+  document.getElementById("raceSummary").classList.remove("hidden");
+  updateButtonStates();
+
+  const saveBtn = document.querySelector(".btn-save");
+  saveBtn.disabled = false;
+  saveBtn.onclick = () => {
+    saveSessionManually();
+    saveBtn.disabled = true;
+  };
+}
+
+/**
+ * Calcola i dati riepilogativi della corsa.
+ * @returns {Object} Oggetto con totalLaps, totalTime, bestLap, worstLap, averageLap.
+ */
+function calculateRaceSummary() {
+  if (laps.length === 0) return {};
+
+  const totalLaps = laps.length;
+  const totalTime = laps.reduce((sum, t) => sum + t, 0);
+  const bestLap = Math.min(...laps);
+  const worstLap = Math.max(...laps);
+  const averageLap = totalTime / totalLaps;
+
+  return { totalLaps, totalTime, bestLap, worstLap, averageLap };
+}
+
+/**
+ * Aggiorna la visualizzazione del timer principale.
+ * @param {number} ms - Millisecondi trascorsi.
+ */
+function updateTimer(ms) {
+  document.getElementById("timer").textContent = formatTime(ms);
+}
+
+/**
+ * Aggiorna la visualizzazione del timer del giro corrente.
+ * @param {number} ms - Millisecondi del giro.
+ */
+function updateLapTimer(ms) {
+  document.getElementById("lapTime").textContent = formatTime(ms);
+}
+
+/**
+ * Aggiorna la lista dei giri e i dati riepilogativi.
+ */
+function renderLaps() {
+  const lapsList = document.getElementById("lapsList");
+  lapsList.innerHTML = "";
+
+  if (laps.length === 0) return;
+
+  const totalTime = laps.reduce((sum, t) => sum + t, 0);
+  document.getElementById("totalTimeDisplay").textContent =
+    formatTime(totalTime);
+
+  const bestLap = Math.min(...laps);
+  document.getElementById("bestLap").textContent = formatTime(bestLap);
+
+  laps.forEach((lapTime, index) => {
+    const formattedTime = formatTime(lapTime);
+    const lapItem = document.createElement("div");
+    lapItem.className = "lap-item";
+
+    if (lapTime === bestLap) {
+      lapItem.classList.add("best-lap");
+    }
+
+    lapItem.textContent = `Giro ${index + 1}: ${formattedTime}`;
+    lapsList.appendChild(lapItem);
+  });
+}
 /**
  * Formatta i millisecondi nel formato MM:SS:MMM.
  */
@@ -43,8 +242,8 @@ function saveSessionToHistory(name) {
   const session = {
     name,
     date: new Date().toISOString(),
-    totalTime: formatTime(totalElapsedTime), // Formattato come MM:SS:MMM
-    totalTimeMs: totalElapsedTime, // Valore numerico in millisecondi per l'ordinamento
+    totalTime: formatTime(totalElapsedTime), 
+    totalTimeMs: totalElapsedTime, 
     laps: laps.map((lap) => formatTime(lap)),
     bestLap: formatTime(Math.min(...laps)),
     totalLaps: laps.length,
@@ -87,11 +286,10 @@ function renderSavedSessions(sessions = savedSessions) {
 function sortSessions(column) {
   let sortedSessions = [...savedSessions];
 
-  // Cambia l'ordine (ascendente o discendente)
   if (sortOrder[column] === "asc") {
-    sortOrder[column] = "desc";
-  } else {
     sortOrder[column] = "asc";
+  } else {
+    sortOrder[column] = "desc";
   }
 
   switch (column) {
@@ -132,12 +330,10 @@ function sortSessions(column) {
       break;
   }
 
-  // Rimuovi tutte le classi di ordinamento precedenti
   document.querySelectorAll("#sessionsTable th").forEach((th) => {
     th.classList.remove("asc", "desc");
   });
 
-  // Aggiungi la classe di ordinamento corrente
   const clickedHeader = document.querySelector(
     `#sessionsTable th[onclick="sortSessions('${column}')"]`
   );
@@ -170,7 +366,6 @@ function parseTime(time) {
 function viewSessionDetails(index) {
   const session = savedSessions[index];
 
-  // Crea un elenco numerato per i tempi dei giri
   const lapsList = session.laps.map((lap, idx) => {
       return `Giro ${idx + 1}: ${lap} \n`;
   }).join("");
@@ -187,16 +382,45 @@ function viewSessionDetails(index) {
           ${lapsList}
   `);
 }
-// Inizializza la pagina
+
 renderSavedSessions();
 updateButtonStates();
-/* 
-La lista dei giri deve essere ordinata e facile da leggere, con i migliori giri evidenziati in modo chiaro. Il riepilogo della corsa e lo storico delle sessioni devono essere ben strutturati e facili da navigare. Di default sono ordinati per tempo migliore ma l'utente può scegliere di ordinarli per data o per nome o per giro migliore. Implementa anche un sistema di salvataggio delle sessioni in locale, in modo che l'utente possa visualizzare le sessioni salvate anche dopo aver chiuso il browser. ci deve essere anche un sistema di ricerca per nome o per data e un modo per eliminare le sessioni salvate.
-Inoltre voglio un modo per scaricare un file con i dati della sessione salvata in formato JSON, in modo che l'utente possa importare i dati in un altro sistema o semplicemente conservarli per un uso futuro. ci deve essere anche un modo per caricare un file JSON con i dati di una sessione salvata, in modo che l'utente possa importare i dati in questo sistema. deve esserci anche un modo per visualizzare i dati della sessione salvata in un formato leggibile, in modo che l'utente possa vedere i dettagli della sessione senza dover aprire il file JSON.
-ci deve essere anche un modo per eliminare una sessione salvata, in modo che l'utente possa rimuovere le sessioni che non gli servono più. 
-il foglio di stile è in condivisione con il cronometro semplice, quindi non modificare le cose inutilizzate.
-nello storico delle sessioni voglio che si veda il nome della sessione, la data e l'ora in cui è stata salvata, il tempo totale, il numero di giri e il miglior giro. nele esportazioni ci devono essere anche i giri salvati, in modo che l'utente possa vedere i dettagli della sessione senza dover aprire il file JSON.
-mi piacerebbe anche un modo per visualizzare i dati della sessione salvata in un formato leggibile, in modo che l'utente possa vedere i dettagli della sessione senza dover aprire il file JSON.
 
-Il bottone di avvio deve essere disabilitato quando il cronometro è in esecuzione e il pulsante di arresto deve essere disabilitato quando il cronometro è fermo. Il pulsante di reset deve essere disabilitato quando il cronometro è in esecuzione. Il pulsante di giro deve essere disabilitato quando il cronometro è fermo e il pulsante di fine deve essere disabilitato quando il cronometro è in esecuzione. il pulsante di salvataggio deve essere disabilitato quando il cronometro è in esecuzione e deve essere l'unico modo per salvare la sessione. il salvataggio non deve essere automatico, ma deve essere fatto manualmente dall'utente tramite il pulsante di salvataggio.
-     */
+/**
+ * Scarica lo storico completo delle sessioni in formato JSON.
+ */
+function exportAllSessions() {
+  if (savedSessions.length === 0) {
+    alert("Non ci sono sessioni salvate da esportare.");
+    return;
+  }
+
+  const dataStr = JSON.stringify(savedSessions, null, 2);
+  const blob = new Blob([dataStr], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "session_history.json"; 
+  document.body.appendChild(a);
+  a.click();
+
+  // Pulizia
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/**
+ * Elimina una sessione salvata.
+ */
+function deleteSession(index) {
+ 
+  const isConfirmed = confirm("Sei sicuro di voler eliminare questa sessione?");
+  
+  if (isConfirmed) {
+    savedSessions.splice(index, 1); 
+    localStorage.setItem("sessions", JSON.stringify(savedSessions)); 
+    renderSavedSessions(); 
+  }
+}
