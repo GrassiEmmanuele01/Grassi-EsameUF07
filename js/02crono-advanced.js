@@ -168,10 +168,11 @@ function formatTime(ms) {
 }
 
 function saveSessionManually() {
-  const sessionName = prompt("Inserisci un nome per la sessione:");
-  if (sessionName) {
-    saveSessionToHistory(sessionName);
+  let sessionName = prompt("Inserisci un nome per la sessione:", "Sessione");
+  if (!sessionName || sessionName.trim() === "") {
+    sessionName = "Senza Nome";
   }
+  saveSessionToHistory(sessionName);
 }
 
 function saveSessionToHistory(name) {
@@ -281,25 +282,16 @@ function parseTime(time) {
 function viewSessionDetails(index) {
   const session = savedSessions[index];
   const lapsList = session.laps
-    .map((lap, idx) => {
-      return `Giro ${idx + 1}: ${lap} 
-`;
-    })
-    .join("");
+    .map((lap, idx) => `Giro ${idx + 1}: ${lap}`)
+    .join("\n");
   alert(`Dettagli Sessione:
-    
 Nome: ${session.name}
 Data: ${new Date(session.date).toLocaleString()}
 Tempo Totale: ${session.totalTime}
 Giri Totali: ${session.totalLaps}
 Miglior Giro: ${session.bestLap}
-Tempi Giri: 
-${lapsList}
-    `);
+Tempi Giri:\n${lapsList}`);
 }
-
-renderSavedSessions();
-updateButtonStates();
 
 function exportAllSessions() {
   if (savedSessions.length === 0) {
@@ -328,14 +320,17 @@ function deleteSession(index) {
 }
 
 function editSessionName(index) {
-  const newName = prompt("Inserisci il nuovo nome per questa sessione:");
-  if (newName && newName.trim() !== "") {
-    savedSessions[index].name = newName.trim();
-    localStorage.setItem("sessions", JSON.stringify(savedSessions));
-    renderSavedSessions();
+  const newName = prompt(
+    "Inserisci il nuovo nome per questa sessione:",
+    savedSessions[index].name
+  );
+  if (!newName || newName.trim() === "") {
+    savedSessions[index].name = "Senza Nome";
   } else {
-    alert("Il nome non può essere vuoto.");
+    savedSessions[index].name = newName.trim();
   }
+  localStorage.setItem("sessions", JSON.stringify(savedSessions));
+  renderSavedSessions();
 }
 
 function downloadSingleSession(index) {
@@ -353,23 +348,19 @@ function downloadSingleSession(index) {
   a.click();
   URL.revokeObjectURL(url);
 }
+
 document.getElementById("importSession").addEventListener("change", (event) => {
   const file = event.target.files[0];
   if (!file) return;
-
   const reader = new FileReader();
   reader.onload = (e) => {
     try {
       const importedData = JSON.parse(e.target.result);
-
       const importedSessions = Array.isArray(importedData)
         ? importedData
         : [importedData];
-
       savedSessions = [...savedSessions, ...importedSessions];
-
       localStorage.setItem("sessions", JSON.stringify(savedSessions));
-
       renderSavedSessions();
     } catch (error) {
       alert("Errore durante l'importazione del file.");
@@ -378,22 +369,6 @@ document.getElementById("importSession").addEventListener("change", (event) => {
   };
   reader.readAsText(file);
 });
-
-function downloadSingleSession(index) {
-  const session = savedSessions[index];
-  const fileName = `${session.name}_${
-    session.date.replace(/[:T]/g, "-").split(".")[0]
-  }.json`;
-  const blob = new Blob([JSON.stringify(session, null, 2)], {
-    type: "application/json",
-  });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = fileName;
-  a.click();
-  URL.revokeObjectURL(url);
-}
 
 function handleFileUpload() {
   document.getElementById("importSession").click();
