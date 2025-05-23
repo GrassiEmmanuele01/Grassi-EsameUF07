@@ -112,6 +112,7 @@ button:disabled {
 }
 
 /* Miglioramenti per il Riepilogo Corsa */
+<<<<<<< HEAD
 #raceSummary {
     background: linear-gradient(135deg, #ffffff, #f0f8ff);
     border: 1px solid #3498db;
@@ -120,6 +121,8 @@ button:disabled {
     border-radius: 10px;
 }
 
+=======
+>>>>>>> 81187d6d25d9c3d4f40bbf4c8be1d25238bddca5
 #raceSummary ul {
     list-style: none;
     padding: 0;
@@ -137,11 +140,19 @@ button:disabled {
 
 /* Miglioramenti per i Giri Salvati */
 .laps-container {
+<<<<<<< HEAD
     background: linear-gradient(135deg, #ffffff, #fff0f5);
     border: 1px solid #e74c3c;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     padding: 20px;
     border-radius: 10px;
+=======
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+>>>>>>> 81187d6d25d9c3d4f40bbf4c8be1d25238bddca5
 }
 
 #lapsList {
@@ -267,7 +278,11 @@ button:disabled {
     color: white;
     cursor: pointer;
     transition: all 0.3s ease;
+<<<<<<< HEAD
     width: 150px;
+=======
+    width: 110px;
+>>>>>>> 81187d6d25d9c3d4f40bbf4c8be1d25238bddca5
     height: 38px;
     font-weight: bold;
 }
@@ -348,11 +363,14 @@ button:disabled {
 
 /* Responsive fix */
 @media (max-width: 768px) {
+<<<<<<< HEAD
     #summary-and-laps {
         flex-direction: column;
         align-items: center;
     }
 
+=======
+>>>>>>> 81187d6d25d9c3d4f40bbf4c8be1d25238bddca5
     .summary-column {
         min-width: 100%;
     }

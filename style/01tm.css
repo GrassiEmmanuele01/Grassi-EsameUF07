@@ -1,4 +1,4 @@
-/* VERSIONE BASE */
+/* Task List Base */
 .task-list {
     background-color: #ffffff;
     border-radius: 10px;
@@ -42,6 +42,17 @@
 .task-item:hover {
     background-color: #ecf0f1;
     transform: translateX(-3px);
+<<<<<<< HEAD
+}
+
+.task-item button {
+    font-size: 12px;
+    padding: 6px 10px;
+    margin-left: 5px;
+    border-radius: 4px;
+    font-weight: 500;
+=======
+>>>>>>> 81187d6d25d9c3d4f40bbf4c8be1d25238bddca5
 }
 
 .task-item button {
@@ -51,8 +62,7 @@
     border-radius: 4px;
     font-weight: 500;
 }
-
-/* VERSIONE AVANZATA */
+/* Versione Avanzata - Task Columns */
 .task-columns {
     display: flex;
     justify-content: space-between;
@@ -149,6 +159,7 @@ button.disabled {
     color: #666;
     cursor: not-allowed;
 }
+<<<<<<< HEAD
 #searchInput {
     width: 100%;
     max-width: 400px;
@@ -160,6 +171,8 @@ button.disabled {
     display: block;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
+=======
+>>>>>>> 81187d6d25d9c3d4f40bbf4c8be1d25238bddca5
 
 /* Sezione Eliminati */
 .deleted-footer {
