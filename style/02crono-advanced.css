@@ -1,114 +1,112 @@
 /* Timer principale */
 #timer {
     font-family: 'Orbitron', sans-serif;
-    font-size: 64px;
-    color: #2c3e50;
+    font-size: 72px;
+    color: #1e3c72;
     background-color: #ffffff;
     border: 4px solid #3498db;
-    border-radius: 15px;
-    padding: 20px 30px;
-    margin: 30px auto;
+    border-radius: 20px;
+    padding: 25px 40px;
+    margin: 40px auto;
     width: max-content;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
 
 #timer:hover {
     transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* Pulsanti di controllo */
 .controls {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin: 20px 0;
+    gap: 15px;
+    margin: 25px 0;
     flex-wrap: wrap;
 }
 
 button {
-    padding: 10px 20px;
+    padding: 12px 24px;
     font-size: 16px;
-    border-radius: 5px;
+    font-weight: bold;
+    border-radius: 8px;
     border: none;
     color: white;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    opacity: 0.9;
 }
 
 .btn-start {
     background-color: #27ae60;
 }
 
-.btn-start:hover {
-    background-color: #219150;
-}
-
 .btn-stop {
     background-color: #e67e22;
-}
-
-.btn-stop:hover {
-    background-color: #cf711f;
 }
 
 .btn-reset {
     background-color: #e74c3c;
 }
 
-.btn-reset:hover {
-    background-color: #c0392b;
-}
-
 .btn-lap {
     background-color: #3498db;
-}
-
-.btn-lap:hover {
-    background-color: #2980b9;
 }
 
 .btn-end {
     background-color: #8e44ad;
 }
 
-.btn-end:hover {
-    background-color: #732d91;
-}
-
 .btn-save {
     background-color: #2980b9;
 }
 
-.btn-save:hover {
-    background-color: #2472a4;
+/* Effetto schiacciamento sui pulsanti premuti */
+button:active {
+    transform: scale(0.98);
 }
 
 button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 /* Riepilogo Corsa e Giri Salvati */
 #summary-and-laps {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
-    margin-top: 20px;
+    justify-content: center;
+    margin-top: 30px;
 }
 
 .summary-column {
     flex: 1;
-    padding: 20px;
-    background-color: #ecf0f1;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
+    min-width: 300px;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #3498db;
+    transition: transform 0.3s ease;
+}
+
+.summary-column:hover {
+    transform: translateY(-5px);
 }
 
 .summary-column h2,
 .summary-column h3 {
     margin-bottom: 10px;
-    color: #2c3e50;
+    color: #1e3c72;
     font-family: 'Orbitron', sans-serif;
     font-weight: bold;
 }
@@ -116,8 +114,10 @@ button:disabled {
 /* Miglioramenti per il Riepilogo Corsa */
 #raceSummary {
     background: linear-gradient(135deg, #ffffff, #f0f8ff);
-    border: 2px solid #3498db;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #3498db;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    border-radius: 10px;
 }
 
 #raceSummary ul {
@@ -138,8 +138,10 @@ button:disabled {
 /* Miglioramenti per i Giri Salvati */
 .laps-container {
     background: linear-gradient(135deg, #ffffff, #fff0f5);
-    border: 2px solid #e74c3c;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e74c3c;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    border-radius: 10px;
 }
 
 #lapsList {
@@ -148,59 +150,47 @@ button:disabled {
 }
 
 #lapsList div {
-    margin-bottom: 8px;
-    padding: 10px;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    padding: 12px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+#lapsList div:hover {
+    transform: translateX(-5px);
 }
 
 #lapsList .best-lap {
-    background-color: #f1c40f;
+    background-color: #fdf3d3;
     font-weight: bold;
-    border-left: 4px solid #f39c12;
+    border-left: 5px solid #f39c12;
     color: #2c3e50;
 }
 
 /* Storico Sessioni */
 #sessionHistory {
-    margin-top: 30px;
-    padding: 20px;
-    background: linear-gradient(145deg, #ffffff, #f0f8ff);
+    margin-top: 40px;
+    padding: 30px;
+    background-color: #ffffff;
     border-radius: 15px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
     text-align: left;
+    border: 1px solid #eee;
 }
 
 #sessionHistory h2 {
     font-family: 'Orbitron', sans-serif;
-    color: #2c3e50;
-    margin-bottom: 15px;
+    color: #1e3c72;
+    margin-bottom: 20px;
     font-size: 24px;
     text-align: center;
-}
-
-/* Storico Sessioni */
-#sessionHistory {
-    margin-top: 30px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 15px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
-}
-
-#sessionHistory h2 {
-    font-family: 'Orbitron', sans-serif;
-    color: #2c3e50;
-    margin-bottom: 15px;
-    font-size: 24px;
-    text-align: center;
+    font-weight: bold;
 }
 
 /* Tabella dello storico */
@@ -212,14 +202,15 @@ button:disabled {
     border-radius: 10px;
     overflow: hidden;
     background-color: #ffffff;
-    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 #sessionsTable th,
 #sessionsTable td {
-    padding: 12px 15px;
+    padding: 14px 16px;
     text-align: center;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
 }
 
 #sessionsTable th {
@@ -229,7 +220,6 @@ button:disabled {
     font-weight: bold;
     position: relative;
     transition: background-color 0.3s ease;
-    text-align: center ;
 }
 
 #sessionsTable th:hover {
@@ -252,7 +242,6 @@ button:disabled {
     content: '↓';
 }
 
-/* Rimuovi le frecce dalla colonna Azioni */
 #sessionsTable th:last-child::after {
     content: none;
 }
@@ -267,41 +256,41 @@ button:disabled {
 
 #sessionsTable .actions {
     gap: 10px;
-    max-width: 300px;
     text-align: center;
 }
 
 #sessionsTable .actions button {
     padding: 6px 12px;
-    border-radius: 5px;
+    font-size: 14px;
+    border-radius: 6px;
     border: none;
     color: white;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 14px;
-    height: 50px ;
-    width: 120px;
+    transition: all 0.3s ease;
+    width: 150px;
+    height: 38px;
+    font-weight: bold;
 }
 
 #sessionsTable .actions button.view {
     background-color: #2980b9;
 }
 
-#sessionsTable .actions button.delete {
-    background-color: #e74c3c;
-}
-
-#sessionsTable .actions button:hover {
-    opacity: 0.9;
-}
-
-/* Stili per i pulsanti Modifica e Scarica */
 #sessionsTable .actions button.edit {
     background-color: #f39c12;
 }
 
+#sessionsTable .actions button.delete {
+    background-color: #e74c3c;
+}
+
 #sessionsTable .actions button.download {
     background-color: #27ae60;
+}
+
+#sessionsTable .actions button:hover {
+    opacity: 0.9;
+    transform: scale(1.03);
 }
 
 /* Barra di ricerca */
@@ -309,20 +298,25 @@ button:disabled {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 #searchInput {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 60%;
+    padding: 10px 14px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 350px;
     transition: border-color 0.3s ease;
 }
 
 #searchInput:focus {
     border-color: #3498db;
     outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
 }
 
 /* Sezione Importazione */
@@ -336,13 +330,15 @@ button:disabled {
     padding: 10px 20px;
     background-color: #3498db;
     color: white;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .file-upload:hover {
     background-color: #2980b9;
+    transform: translateY(-2px);
 }
 
 /* Stili per le icone Font Awesome */
@@ -350,8 +346,14 @@ button:disabled {
     margin-right: 5px;
 }
 
-/* Stili per i pulsanti con icone */
-#sessionsTable .actions button {
-    display: inline-block;
-    text-align: left;
+/* Responsive fix */
+@media (max-width: 768px) {
+    #summary-and-laps {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .summary-column {
+        min-width: 100%;
+    }
 }
