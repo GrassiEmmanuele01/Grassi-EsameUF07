@@ -6,8 +6,8 @@
     <title>Cronometro - Avanzato</title>
     <link rel="stylesheet" href="../style/style.css" />
     <link rel="stylesheet" href="../style/02crono-advanced.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css " />
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron :wght@500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Orbitron :wght@500&display=swap"  />
 </head>
 <body>
     <a href="../index.html" class="back-to-home">Torna alla Home</a>
@@ -63,9 +63,9 @@
 
     <div id="importSection">
         <h3>Carica File JSON</h3>
-        <label for="importSession" class="file-upload">
+        <button class="file-upload" onclick="handleFileUpload()">
             <i class="fas fa-upload"></i> Carica File
-        </label>
+        </button>
         <input type="file" id="importSession" accept=".json" style="display: none;" />
     </div>
 
