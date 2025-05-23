@@ -287,9 +287,9 @@ function sortSessions(column) {
   let sortedSessions = [...savedSessions];
 
   if (sortOrder[column] === "asc") {
-    sortOrder[column] = "asc";
-  } else {
     sortOrder[column] = "desc";
+  } else {
+    sortOrder[column] = "asc";
   }
 
   switch (column) {
@@ -405,8 +405,7 @@ function exportAllSessions() {
   a.download = "session_history.json"; 
   document.body.appendChild(a);
   a.click();
-
-  // Pulizia
+  
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
