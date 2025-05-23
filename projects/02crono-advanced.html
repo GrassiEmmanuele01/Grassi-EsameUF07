@@ -4,13 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cronometro - Avanzato</title>
-    <link rel="stylesheet" href="../style/style.css" />
-    <link rel="stylesheet" href="../style/02crono-advanced.css" />
+    <link rel="stylesheet" href="../style/light/style.css" />
+    <link rel="stylesheet" href="../style/light/02crono-advanced.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Orbitron :wght@500&display=swap"  />
 </head>
 <body>
-    <a href="../index.html" class="back-to-home">Torna alla Home</a>
+    <!-- Interruttore Sole-Luna -->
+    <label class="theme-switch">
+        <input type="checkbox" id="themeToggle">
+        <span class="slider"></span>
+        <i class="fas fa-moon moon-icon"></i>
+        <i class="fas fa-sun sun-icon"></i>
+    </label>
+    <a href="index.html" class="back-to-home">Torna alla Home</a>
     <h1>Cronometro - Avanzato</h1>
     <div id="timer">00:00:000</div>
 
@@ -70,5 +77,6 @@
     </div>
 
     <script src="../js/02crono-advanced.js"></script>
+    <script src="../js/theme.js"></script>
 </body>
 </html>

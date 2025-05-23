@@ -1,0 +1,359 @@
+/* Timer principale */
+#timer {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 72px;
+    color: #1e3c72;
+    background-color: #ffffff;
+    border: 4px solid #3498db;
+    border-radius: 20px;
+    padding: 25px 40px;
+    margin: 40px auto;
+    width: max-content;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+#timer:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Pulsanti di controllo */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+button {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.btn-start {
+    background-color: #27ae60;
+}
+
+.btn-stop {
+    background-color: #e67e22;
+}
+
+.btn-reset {
+    background-color: #e74c3c;
+}
+
+.btn-lap {
+    background-color: #3498db;
+}
+
+.btn-end {
+    background-color: #8e44ad;
+}
+
+.btn-save {
+    background-color: #2980b9;
+}
+
+/* Effetto schiacciamento sui pulsanti premuti */
+button:active {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Riepilogo Corsa e Giri Salvati */
+#summary-and-laps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.summary-column {
+    flex: 1;
+    min-width: 300px;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #3498db;
+    transition: transform 0.3s ease;
+}
+
+.summary-column:hover {
+    transform: translateY(-5px);
+}
+
+.summary-column h2,
+.summary-column h3 {
+    margin-bottom: 10px;
+    color: #1e3c72;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+}
+
+/* Miglioramenti per il Riepilogo Corsa */
+#raceSummary {
+    background: linear-gradient(135deg, #ffffff, #f0f8ff);
+    border: 1px solid #3498db;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#raceSummary ul {
+    list-style: none;
+    padding: 0;
+}
+
+#raceSummary li {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #34495e;
+}
+
+#raceSummary li strong {
+    color: #2980b9;
+}
+
+/* Miglioramenti per i Giri Salvati */
+.laps-container {
+    background: linear-gradient(135deg, #ffffff, #fff0f5);
+    border: 1px solid #e74c3c;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#lapsList {
+    list-style: none;
+    padding: 0;
+}
+
+#lapsList div {
+    margin-bottom: 10px;
+    padding: 12px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+#lapsList div:hover {
+    transform: translateX(-5px);
+}
+
+#lapsList .best-lap {
+    background-color: #fdf3d3;
+    font-weight: bold;
+    border-left: 5px solid #f39c12;
+    color: #2c3e50;
+}
+
+/* Storico Sessioni */
+#sessionHistory {
+    margin-top: 40px;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    border: 1px solid #eee;
+}
+
+#sessionHistory h2 {
+    font-family: 'Orbitron', sans-serif;
+    color: #1e3c72;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Tabella dello storico */
+#sessionsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: 'Orbitron', sans-serif;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+#sessionsTable th,
+#sessionsTable td {
+    padding: 14px 16px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
+}
+
+#sessionsTable th {
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+#sessionsTable th:hover {
+    background-color: #2980b9;
+}
+
+#sessionsTable th::after {
+    content: '';
+    font-size: 12px;
+    margin-left: 5px;
+    opacity: 0.7;
+    transition: transform 0.3s ease;
+}
+
+#sessionsTable th.asc::after {
+    content: '↑';
+}
+
+#sessionsTable th.desc::after {
+    content: '↓';
+}
+
+#sessionsTable th:last-child::after {
+    content: none;
+}
+
+#sessionsTable tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#sessionsTable tbody tr:hover {
+    background-color: #ecf0f1;
+}
+
+#sessionsTable .actions {
+    gap: 10px;
+    text-align: center;
+}
+
+#sessionsTable .actions button {
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 150px;
+    height: 38px;
+    font-weight: bold;
+}
+
+#sessionsTable .actions button.view {
+    background-color: #2980b9;
+}
+
+#sessionsTable .actions button.edit {
+    background-color: #f39c12;
+}
+
+#sessionsTable .actions button.delete {
+    background-color: #e74c3c;
+}
+
+#sessionsTable .actions button.download {
+    background-color: #27ae60;
+}
+
+#sessionsTable .actions button:hover {
+    opacity: 0.9;
+    transform: scale(1.03);
+}
+
+/* Barra di ricerca */
+#filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#searchInput {
+    padding: 10px 14px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 350px;
+    transition: border-color 0.3s ease;
+}
+
+#searchInput:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+/* Sezione Importazione */
+#importSection {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.file-upload:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+/* Stili per le icone Font Awesome */
+.fas {
+    margin-right: 5px;
+}
+
+/* Responsive fix */
+@media (max-width: 768px) {
+    #summary-and-laps {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .summary-column {
+        min-width: 100%;
+    }
+}
