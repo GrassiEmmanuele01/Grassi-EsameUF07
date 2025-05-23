@@ -175,6 +175,8 @@ li .column.actions {
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    height: 50px;
+    width: 120px;
 }
 
 #savedTimesList .actions button.delete {
@@ -185,3 +187,12 @@ li .column.actions {
     opacity: 0.9;
 }
 
+/* Stili per i pulsanti Modifica ed Elimina */
+#savedTimesList .actions button.edit {
+    background-color: #f39c12;
+    margin-left: 5px;
+}
+
+#savedTimesList .actions button.delete {
+    background-color: #e74c3c;
+}

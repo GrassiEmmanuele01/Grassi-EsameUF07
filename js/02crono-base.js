@@ -115,10 +115,24 @@ function formatTime(totalSeconds) {
   const remainingSeconds = (totalSeconds % 60).toString().padStart(2, "0");
   return `${minutes}:${remainingSeconds}`;
 }
+/**
+ * Modifica il nome di un tempo salvato.
+ * @param {number} index - Indice del tempo da modificare.
+ */
+function editSavedTime(index) {
+  const newName = prompt("Inserisci il nuovo nome per questo tempo:", savedTimes[index].name);
 
+  if (newName && newName.trim() !== "") {
+    savedTimes[index].name = newName.trim();
+    saveToLocalStorage();
+    updateSavedTimesList();
+  } else {
+    alert("Il nome non può essere vuoto.");
+  }
+}
 /**
  * Aggiorna la lista degli storici tempi salvati nella pagina,
- * mostrando nome, tempo, data e pulsante di eliminazione.
+ * mostrando nome, tempo, data, pulsante di eliminazione e pulsante di modifica con icone.
  */
 function updateSavedTimesList() {
   const list = document.getElementById("savedTimesList");
@@ -141,11 +155,21 @@ function updateSavedTimesList() {
 
     const actionsColumn = document.createElement("span");
     actionsColumn.className = "column actions";
+
+    // Pulsante Elimina con icona
     const deleteButton = document.createElement("button");
     deleteButton.className = "delete";
-    deleteButton.textContent = "Elimina";
+    deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i> Elimina';
     deleteButton.onclick = () => deleteSavedTime(index);
+
+    // Pulsante Modifica con icona
+    const editButton = document.createElement("button");
+    editButton.className = "edit";
+    editButton.innerHTML = '<i class="fas fa-edit"></i> Modifica';
+    editButton.onclick = () => editSavedTime(index);
+
     actionsColumn.appendChild(deleteButton);
+    actionsColumn.appendChild(editButton);
 
     listItem.appendChild(nameColumn);
     listItem.appendChild(timeColumn);
