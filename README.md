@@ -77,8 +77,124 @@ Linee guida progetti UF07WEB.pdf
 
 ## 🛠️ Come usare
 
-Apri `index.html` in un browser e seleziona l'app che vuoi testare.  
-Tutti i progetti funzionano **senza server**.
+1. **Apertura:**  
+   Apri il file `index.html` con un browser moderno (Chrome, Edge, Firefox, ecc.).
+2. **Selezione progetto:**  
+   Scegli il progetto che vuoi provare tra Task Manager, Cronometro e Meteo App, cliccando sui pulsanti "Base" o "Avanzato".
+3. **Utilizzo:**  
+   Ogni progetto si apre in una pagina dedicata e puoi interagire con tutte le sue funzionalità senza bisogno di installare nulla o di un server.
+
+---
+
+## Funzionamento dei progetti
+
+### ✅ Task Manager
+
+#### Versione Base (`01tm-base.html` / `01tm-base.js`)
+- **Aggiungi attività:** Inserisci il nome di una nuova attività e premi "Aggiungi".
+- **Elimina attività:** Clicca su "Rimuovi" accanto a una task per spostarla negli "Eliminati di recente".
+- **Recupera attività:** Nella sezione "Eliminati di recente", puoi ripristinare una task con "Ripristina" oppure eliminarla definitivamente con "Rimuovi definitivamente".
+- **Nota:** Le attività sono semplici stringhe, senza stato.
+
+#### Versione Avanzata (`01tm-advanced.html` / `01tm-advanced.js`)
+- **Aggiungi attività:** Come nella base, ma ogni attività ha uno stato (da fare, in corso, completata) che è impostato di default a "Da Fare".
+- **Cambia stato:** Usa i pulsanti accanto a ogni attività per cambiarne lo stato.
+- **Modifica nome:** Puoi modificare il nome di una task cliccando su "Modifica".
+- **Elimina attività:** Le attività rimosse finiscono negli "Eliminati di recente" e possono essere ripristinate o eliminate definitivamente.
+- **Filtri e ricerca:** Puoi filtrare le attività per stato e cercare per nome.
+- **Gestione avanzata eliminati:** Anche le attività eliminate mantengono memoria dello stato originale e possono essere ripristinate nello stato corretto.
+
+---
+
+### ⏱️ Cronometro
+
+#### Versione Base (`02crono-base.html` / `02crono-base.js`)
+- **Start:** Avvia il conteggio del tempo (in secondi).
+- **Stop:** Ferma il cronometro.
+- **Reset:** Riporta il tempo a zero.
+- **Visualizzazione:** Il tempo viene mostrato in formato minuti:secondi.
+- **Icone:** I pulsanti hanno icone per una migliore usabilità.
+
+#### Versione Avanzata (`02crono-advanced.html` / `02crono-advanced.js`)
+- **Start/Stop/Reset:** Come nella versione base, ma il tempo è in millisecondi.
+- **Lap (Giro):** Salva il tempo del giro corrente e lo aggiunge alla lista dei giri.
+- **Fine Corsa:** Salva il tempo dell'ultimo giro, lo aggiunge alla lista dei giri e stoppa il cronometro.
+- **Lista giri:** Visualizza tutti i giri effettuati, evidenziando il migliore.
+- **Riepilogo corsa:** Al termine puoi vedere statistiche come numero di giri, tempo totale, miglior/peggior giro, media giri.
+- **Icone:** Tutti i pulsanti sono dotati di icone.
+- **Funzionalità avanzate:** Resume, gestione dettagliata dei giri, riepilogo dettagliato.
+
+---
+
+### 🌤️ Meteo App
+
+#### Versione Base (`03meteo-base.html` / `03meteo-base.js`)
+- **Meteo posizione fissa:** Visualizza le condizioni meteo (temperatura, umidità, pioggia, vento, ecc.) di una località predefinita.
+- **Nome città:** Il nome della città viene rilevato automaticamente tramite reverse geocoding.
+- **Dati aggiornati:** I dati sono ottenuti tramite API Open-Meteo e OpenStreetMap Nominatim.
+
+#### Versione Avanzata (`03meteo-advanced.html` / `03meteo-advanced.js`)
+- **Meteo posizione attuale:** Usa la geolocalizzazione del browser per mostrare il meteo dove ti trovi.
+- **Meteo città famose:** Visualizza anche il meteo di alcune città famose.
+- **Dettagli meteo:** Oltre ai dati base, mostra icone meteo e dettagli aggiuntivi.
+- **Nome città:** Anche qui il nome viene rilevato automaticamente.
+- **Funzionalità avanzate:** Interfaccia più ricca, gestione errori geolocalizzazione, visualizzazione multipla.
+
+---
+
+## Funzionamento dei progetti
+
+### ✅ Task Manager
+
+#### Versione Base (`01tm-base.html` / `01tm-base.js`)
+- **Aggiungi attività:** Inserisci il nome di una nuova attività e premi "Aggiungi".
+- **Elimina attività:** Clicca su "Rimuovi" accanto a una task per spostarla negli "Eliminati di recente".
+- **Recupera attività:** Nella sezione "Eliminati di recente", puoi ripristinare una task con "Ripristina" oppure eliminarla definitivamente con "Rimuovi definitivamente".
+- **Nota:** Le attività sono semplici stringhe, senza stato.
+
+#### Versione Avanzata (`01tm-advanced.html` / `01tm-advanced.js`)
+- **Aggiungi attività:** Come nella base, ma ogni attività ha uno stato (da fare, in corso, completata).
+- **Cambia stato:** Usa i pulsanti accanto a ogni attività per cambiarne lo stato.
+- **Modifica nome:** Puoi modificare il nome di una task cliccando su "Modifica".
+- **Elimina attività:** Le attività rimosse finiscono negli "Eliminati di recente" e possono essere ripristinate o eliminate definitivamente.
+- **Filtri e ricerca:** Puoi filtrare le attività per stato e cercare per nome.
+- **Gestione avanzata eliminati:** Anche le attività eliminate mantengono memoria dello stato originale e possono essere ripristinate nello stato corretto.
+
+---
+
+### ⏱️ Cronometro
+
+#### Versione Base (`02crono-base.html` / `02crono-base.js`)
+- **Start:** Avvia il conteggio del tempo (in secondi).
+- **Stop:** Ferma il cronometro.
+- **Reset:** Riporta il tempo a zero.
+- **Visualizzazione:** Il tempo viene mostrato in formato minuti:secondi.
+- **Icone:** I pulsanti hanno icone per una migliore usabilità.
+
+#### Versione Avanzata (`02crono-advanced.html` / `02crono-advanced.js`)
+- **Start/Stop/Reset:** Come nella versione base, ma il tempo è in millisecondi.
+- **Lap (Giro):** Salva il tempo del giro corrente e lo aggiunge alla lista dei giri.
+- **Lista giri:** Visualizza tutti i giri effettuati, evidenziando il migliore.
+- **Riepilogo corsa:** Al termine puoi vedere statistiche come numero di giri, tempo totale, miglior/p peggior giro, media giri.
+- **Icone:** Tutti i pulsanti sono dotati di icone.
+- **Funzionalità avanzate:** Resume, gestione dettagliata dei giri, riepilogo dettagliato.
+- **Nota:** Il tasto Stop non registra salva il giro, infatti è pensato solo per fermare il crometro per falsa partenza o per altre possibili necessità.
+
+---
+
+### 🌤️ Meteo App
+
+#### Versione Base (`03meteo-base.html` / `03meteo-base.js`)
+- **Meteo posizione fissa:** Visualizza le condizioni meteo (temperatura, umidità, pioggia, vento, ecc.) di una località predefinita.
+- **Nome città:** Il nome della città viene rilevato automaticamente tramite reverse geocoding.
+- **Dati aggiornati:** I dati sono ottenuti tramite API Open-Meteo e OpenStreetMap Nominatim.
+
+#### Versione Avanzata (`03meteo-advanced.html` / `03meteo-advanced.js`)
+- **Meteo posizione attuale:** Usa la geolocalizzazione del browser per mostrare il meteo dove ti trovi.
+- **Meteo città famose:** Visualizza anche il meteo di alcune città famose.
+- **Dettagli meteo:** Oltre ai dati base, mostra icone meteo e dettagli aggiuntivi.
+- **Nome città:** Anche qui il nome viene rilevato automaticamente.
+- **Funzionalità avanzate:** Interfaccia più ricca, gestione errori geolocalizzazione, visualizzazione multipla.
 
 ---
 
