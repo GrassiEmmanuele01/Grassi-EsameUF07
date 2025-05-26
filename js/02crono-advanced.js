@@ -155,6 +155,11 @@ function renderLaps() {
   });
 }
 
+/**
+ * Formatta il tempo in millisecondi nel formato mm:ss:ms.
+ * @param {number} ms - Millisecondi totali.
+ * @returns {string} Tempo formattato.
+ */
 function formatTime(ms) {
   if (isNaN(ms) || ms < 0) return "00:00:000";
   const minutes = Math.floor(ms / 60000)
@@ -167,6 +172,9 @@ function formatTime(ms) {
   return `${minutes}:${seconds}:${milliseconds}`;
 }
 
+/**
+ * Salva manualmente una sessione con nome scelto dall'utente.
+ */
 function saveSessionManually() {
   let sessionName = prompt("Inserisci un nome per la sessione:", "Sessione");
   if (!sessionName || sessionName.trim() === "") {
@@ -175,6 +183,10 @@ function saveSessionManually() {
   saveSessionToHistory(sessionName);
 }
 
+/**
+ * Salva la sessione corrente nello storico.
+ * @param {string} name - Nome della sessione.
+ */
 function saveSessionToHistory(name) {
   const session = {
     name,
@@ -190,6 +202,10 @@ function saveSessionToHistory(name) {
   renderSavedSessions();
 }
 
+/**
+ * Mostra tutte le sessioni salvate nella tabella.
+ * @param {Array} [sessions=savedSessions] - Array di sessioni da mostrare.
+ */
 function renderSavedSessions(sessions = savedSessions) {
   const list = document.getElementById("savedSessionsList");
   list.innerHTML = "";
@@ -274,11 +290,20 @@ document.getElementById("searchInput").addEventListener("input", (e) => {
   renderSavedSessions(filtered);
 });
 
+/**
+ * Converte un tempo stringa (mm:ss:ms) in millisecondi.
+ * @param {string} time - Tempo in formato stringa.
+ * @returns {number} Tempo in millisecondi.
+ */
 function parseTime(time) {
   const [minutes, seconds, milliseconds] = time.split(":").map(Number);
   return minutes * 60000 + seconds * 1000 + milliseconds;
 }
 
+/**
+ * Mostra i dettagli di una sessione in un alert.
+ * @param {number} index - Indice della sessione.
+ */
 function viewSessionDetails(index) {
   const session = savedSessions[index];
   const lapsList = session.laps
@@ -293,6 +318,9 @@ Miglior Giro: ${session.bestLap}
 Tempi Giri:\n${lapsList}`);
 }
 
+/**
+ * Esporta tutte le sessioni salvate in un file JSON.
+ */
 function exportAllSessions() {
   if (savedSessions.length === 0) {
     alert("Non ci sono sessioni salvate da esportare.");
@@ -310,6 +338,10 @@ function exportAllSessions() {
   URL.revokeObjectURL(url);
 }
 
+/**
+ * Elimina una sessione dallo storico.
+ * @param {number} index - Indice della sessione da eliminare.
+ */
 function deleteSession(index) {
   const isConfirmed = confirm("Sei sicuro di voler eliminare questa sessione?");
   if (isConfirmed) {
@@ -319,6 +351,10 @@ function deleteSession(index) {
   }
 }
 
+/**
+ * Modifica il nome di una sessione salvata.
+ * @param {number} index - Indice della sessione.
+ */
 function editSessionName(index) {
   const newName = prompt(
     "Inserisci il nuovo nome per questa sessione:",
@@ -333,6 +369,10 @@ function editSessionName(index) {
   renderSavedSessions();
 }
 
+/**
+ * Scarica una singola sessione in formato JSON.
+ * @param {number} index - Indice della sessione.
+ */
 function downloadSingleSession(index) {
   const session = savedSessions[index];
   const fileName = `${session.name}_${
@@ -370,6 +410,9 @@ document.getElementById("importSession").addEventListener("change", (event) => {
   reader.readAsText(file);
 });
 
+/**
+ * Gestisce il caricamento di un file JSON per importare sessioni.
+ */
 function handleFileUpload() {
   document.getElementById("importSession").click();
 }

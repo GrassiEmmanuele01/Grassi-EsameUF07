@@ -66,7 +66,7 @@ async function fetchLocalWeather(position) {
 }
 
 /**
- * Recupera il nome della città tramite reverse geocoding.
+ * Esegue il reverse geocoding per ottenere il nome della città.
  * @param {number} lat - Latitudine.
  * @param {number} lon - Longitudine.
  * @returns {Promise<string>} Nome della città o località.

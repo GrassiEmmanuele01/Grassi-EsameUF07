@@ -120,7 +120,10 @@ function formatTime(totalSeconds) {
  * @param {number} index - Indice del tempo da modificare.
  */
 function editSavedTime(index) {
-  const newName = prompt("Inserisci il nuovo nome per questo tempo:", savedTimes[index].name);
+  const newName = prompt(
+    "Inserisci il nuovo nome per questo tempo:",
+    savedTimes[index].name
+  );
 
   if (newName && newName.trim() !== "") {
     savedTimes[index].name = newName.trim();
@@ -187,7 +190,7 @@ function updateSavedTimesList() {
  */
 function deleteSavedTime(index) {
   const isConfirmed = confirm("Sei sicuro di voler eliminare questo tempo?");
-  
+
   if (isConfirmed && index >= 0 && index < savedTimes.length) {
     const [deletedEntry] = savedTimes.splice(index, 1);
     deletedTimes.push(deletedEntry);

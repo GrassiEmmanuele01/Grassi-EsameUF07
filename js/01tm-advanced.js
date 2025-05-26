@@ -6,7 +6,7 @@ let deletedTasks =
   JSON.parse(localStorage.getItem("deletedTasksAdvanced")) || [];
 
 /**
- * Salva lo stato corrente delle liste su localStorage
+ * Salva lo stato corrente delle liste su localStorage.
  */
 function saveToLocalStorage() {
   localStorage.setItem("tasksAdvanced", JSON.stringify(tasks));
@@ -44,7 +44,7 @@ function findTaskById(taskArray, taskId) {
  * Modifica il nome di una attività.
  * @param {number} taskId - ID della task da modificare.
  * @param {string} newName - Nuovo nome della task.
- *  */
+ */
 function updateTask(taskId, newName) {
   newName = newName?.trim();
   if (!newName) {
@@ -188,13 +188,11 @@ function renderTasks(filteredTasks = tasks) {
   completedList.innerHTML = "";
   deletedList.innerHTML = "";
 
-
   filteredTasks.forEach((task) => {
     if (!["todo", "inprogress", "completed"].includes(task.status)) {
       console.warn("Stato sconosciuto rilevato:", task);
     }
   });
-
 
   filteredTasks.forEach((task) => {
     const listItem = document.createElement("li");
@@ -267,7 +265,8 @@ function renderTasks(filteredTasks = tasks) {
 }
 
 /**
- * Prompt personalizzato per la modifica
+ * Prompt personalizzato per la modifica del nome di una task.
+ * @param {number} taskId - ID della task da modificare.
  */
 function promptUpdate(taskId) {
   const task = findTaskById(tasks, taskId);

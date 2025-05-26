@@ -29,10 +29,10 @@ async function fetchWeather() {
 }
 
 /**
- * Recupera il nome della città usando OpenStreetMap Nominatim.
+ * Esegue il reverse geocoding per ottenere il nome della città.
  * @param {number} lat - Latitudine.
  * @param {number} lon - Longitudine.
- * @returns {Promise<string>} Nome della città o località.
+ * @returns {Promise<string>} Nome della città.
  */
 async function reverseGeocode(lat, lon) {
   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
@@ -56,7 +56,7 @@ async function reverseGeocode(lat, lon) {
 }
 
 /**
- * Visualizza i dati del meteo e il nome della città.
+ * Mostra i dati meteo nella pagina.
  * @param {Object} data - Dati meteo.
  * @param {string} city - Nome della città.
  */

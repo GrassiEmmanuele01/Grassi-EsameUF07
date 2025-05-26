@@ -2,7 +2,7 @@ let tasks = JSON.parse(localStorage.getItem("tasksBase")) || [];
 let deletedTasks = JSON.parse(localStorage.getItem("deletedTasksBase")) || [];
 
 /**
- * Salva le liste nel localStorage
+ * Salva le liste delle attività e delle eliminate nel localStorage.
  */
 function saveToLocalStorage() {
   localStorage.setItem("tasksBase", JSON.stringify(tasks));
@@ -96,9 +96,9 @@ function renderTasks() {
 }
 
 /**
- * Inizializza la pagina al caricamento del DOM, 
+ * Inizializza la pagina al caricamento del DOM,
  * richiamando la funzione che aggiorna la visualizzazione delle attività.
- * 
+ *
  * @listens document:DOMContentLoaded
  */
 document.addEventListener("DOMContentLoaded", () => {
