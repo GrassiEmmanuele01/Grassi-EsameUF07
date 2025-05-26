@@ -15,7 +15,7 @@ function saveToLocalStorage() {
 }
 
 /**
- * Aggiunge una nuova attività con stato "todo" se il nome è valido.
+ * Aggiunge una nuova attività con stato "todo" e priorità "medium" se il nome è valido.
  */
 function addTask() {
   const input = document.getElementById("taskInput");
@@ -24,7 +24,7 @@ function addTask() {
     alert("Inserisci un nome valido!");
     return;
   }
-  tasks.push({ id: taskIdCounter++, name, status: "todo" });
+  tasks.push({ id: taskIdCounter++, name, status: "todo", priority: "medium" });
   filterTasks();
   saveToLocalStorage();
   input.value = "";
@@ -51,7 +51,6 @@ function updateTask(taskId, newName) {
     alert("Il nuovo nome dell'attività non può essere vuoto!");
     return;
   }
-
   const task = findTaskById(tasks, taskId);
   if (task) {
     task.name = newName.trim();
@@ -139,7 +138,7 @@ function deletePermanently(taskId) {
 }
 
 /**
- * Filtra le attività per stato e ricerca.
+ * Filtra le attività per stato e ricerca, e le ordina per priorità.
  */
 function filterTasks() {
   const filterStatus = document.getElementById("filterStatus").value;
@@ -154,12 +153,8 @@ function filterTasks() {
     return matchesStatus && matchesSearch;
   });
 
-  if (searchQuery !== "") {
-    const filteredDeletedTasks = deletedTasks.filter((task) =>
-      task.name.toLowerCase().includes(searchQuery)
-    );
-    filteredTasks = [...filteredTasks, ...filteredDeletedTasks];
-  }
+  // Ordina le attività filtrate per priorità
+  filteredTasks = sortTasksByPriority(filteredTasks);
 
   renderTasks(filteredTasks);
 }
@@ -189,17 +184,12 @@ function renderTasks(filteredTasks = tasks) {
   deletedList.innerHTML = "";
 
   filteredTasks.forEach((task) => {
-    if (!["todo", "inprogress", "completed"].includes(task.status)) {
-      console.warn("Stato sconosciuto rilevato:", task);
-    }
-  });
-
-  filteredTasks.forEach((task) => {
     const listItem = document.createElement("li");
-    listItem.className = `status-${task.status}`;
+    listItem.className = `status-${task.status} priority-${task.priority}`;
     listItem.innerHTML = `
       <div class="task-content">
         <span>${task.name}</span>
+        <span class="priority-label">${formatPriority(task.priority)}</span>
       </div>
       <div class="button-row">
         ${
@@ -225,6 +215,9 @@ function renderTasks(filteredTasks = tasks) {
         <button class="remove-task" onclick="removeTask(${
           task.id
         })">Rimuovi ❌</button>
+        <button class="update-priority" onclick="promptUpdatePriority(${
+          task.id
+        })">Cambia Priorità ⚡</button>
       </div>
     `;
 
@@ -238,19 +231,18 @@ function renderTasks(filteredTasks = tasks) {
       case "completed":
         completedList.appendChild(listItem);
         break;
-      default:
-        deletedList.appendChild(listItem); // incluso negli eliminati
     }
   });
 
   // Mostra anche gli eliminati se necessario
   deletedTasks.forEach((task) => {
     const deletedItem = document.createElement("li");
-    deletedItem.className = "status-eliminato";
+    deletedItem.className = `status-eliminato priority-${task.priority}`;
     deletedItem.innerHTML = `
       <span>${task.name} (Eliminato da: ${formatStatus(
       task.originalStatus
     )})</span>
+      <span class="priority-label">${formatPriority(task.priority)}</span>
       <div class="button-row">
         <button class="restore-task" onclick="restoreTask(${
           task.id
@@ -295,6 +287,63 @@ function formatStatus(status) {
 }
 
 /**
+ * Ordina le attività in base alla priorità.
+ * @param {Array} tasks - Array di task da ordinare.
+ * @returns {Array} Array ordinato per priorità.
+ */
+function sortTasksByPriority(tasks) {
+  const priorityOrder = { high: 1, medium: 2, low: 3 };
+  return tasks.sort(
+    (a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]
+  );
+}
+
+/**
+ * Aggiorna la priorità di una attività.
+ * @param {number} taskId - ID della task da modificare.
+ * @param {string} newPriority - Nuova priorità ("high", "medium", "low").
+ */
+function updatePriority(taskId, newPriority) {
+  const task = findTaskById(tasks, taskId);
+  if (task && ["high", "medium", "low"].includes(newPriority)) {
+    task.priority = newPriority;
+    filterTasks();
+    saveToLocalStorage();
+  } else {
+    console.error(
+      "Priorità non valida o attività non trovata:",
+      taskId,
+      newPriority
+    );
+  }
+}
+
+/**
+ * Prompt personalizzato per la modifica della priorità di una task.
+ * @param {number} taskId - ID della task da modificare.
+ */
+function promptUpdatePriority(taskId) {
+  const task = findTaskById(tasks, taskId);
+  if (task) {
+    const priorities = ["high", "medium", "low"];
+    const priorityNames = ["Alta 🟩", "Media 🟨", "Bassa 🟥"];
+    const currentPriorityIndex = priorities.indexOf(task.priority);
+    const newPriorityIndex = parseInt(
+      prompt(
+        `Seleziona la nuova priorità:\n1. Alta 🟩\n2. Media 🟨\n3. Bassa 🟥`,
+        currentPriorityIndex + 1
+      )
+    );
+    if (newPriorityIndex >= 1 && newPriorityIndex <= 3) {
+      const selectedPriority = priorities[newPriorityIndex - 1];
+      updatePriority(taskId, selectedPriority);
+    } else {
+      alert("Inserisci un valore valido (1, 2 o 3).");
+    }
+  }
+}
+
+/**
  * Inizializza la pagina al caricamento del DOM,
  * richiamando la funzione che filtra e visualizza le attività.
  *
@@ -303,3 +352,20 @@ function formatStatus(status) {
 document.addEventListener("DOMContentLoaded", () => {
   filterTasks();
 });
+/**
+ * Restituisce la stringa leggibile per la priorità di una task.
+ * @param {string} priority - Priorità della task.
+ * @returns {string} Priorità leggibile.
+ */
+function formatPriority(priority) {
+  switch (priority) {
+    case "high":
+      return "Alta 🟩";
+    case "medium":
+      return "Media 🟨";
+    case "low":
+      return "Bassa 🟥";
+    default:
+      return "Sconosciuta";
+  }
+}

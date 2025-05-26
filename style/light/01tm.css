@@ -132,19 +132,40 @@ button.reset-filters {
 
 button.todo {
     background-color: #e74c3c;
+    height: 50px;
+    width: 180px;
 }
 
 button.inprogress {
     background-color: #f1c40f;
     color: #2d3436;
+    height: 50px;
+    width: 180px;
 }
 
 button.completed {
     background-color: #2ecc71;
+    height: 50px;
+    width: 180px;
 }
 
 button.remove-task {
     background-color: #e74c3c;
+    height: 50px;
+    width: 180px;
+}
+button.edit-task {
+    height: 50px;
+    width: 180px;
+}
+.update-priority {
+    display: flex;
+    align-items: center;
+    background-color: #ffa500;
+    border-radius: 6px;
+    height: 50px;
+    width: 180px;
+    margin-left: 20px;
 }
 
 button.delete-permanently {
@@ -205,3 +226,19 @@ button.disabled {
 .deleted-footer li:hover {
     background-color: #ecf0f1;
 }
+
+/* Stili per la priorità */
+.priority-high {
+    border-left: 5px solid green;
+    /* Alta priorità */
+}
+
+.priority-medium {
+    border-left: 5px solid yellow;
+    /* Media priorità */
+}
+
+.priority-low {
+    border-left: 5px solid red;
+    /* Bassa priorità */ }
+
