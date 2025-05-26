@@ -39,7 +39,7 @@ Linee guida progetti UF07WEB.pdf
   - Sezione "Eliminati di recente" per recuperare task cancellati (funzionalità aggiuntiva rispetto alle linee guida).
 - **Avanzato:**
   - Stato attività (da fare, in corso, completata).
-  - Modifica, filtri, ricerca
+  - Modifica, filtri, ricerca.
   - Eliminazione definitiva e ripristino.
   - Sezione "Eliminati di recente" (funzionalità aggiuntiva).
 
@@ -123,6 +123,9 @@ Linee guida progetti UF07WEB.pdf
 - **Riepilogo corsa:** Al termine puoi vedere statistiche come numero di giri, tempo totale, miglior/peggior giro, media giri.
 - **Icone:** Tutti i pulsanti sono dotati di icone.
 - **Funzionalità avanzate:** Resume, gestione dettagliata dei giri, riepilogo dettagliato.
+<<<<<<< HEAD
+- **Nota:** Il tasto Stop non salva il giro, infatti è pensato solo per fermare il cronometro per falsa partenza o per altre possibili necessità.
+=======
 
 ---
 
@@ -179,6 +182,7 @@ Linee guida progetti UF07WEB.pdf
 - **Icone:** Tutti i pulsanti sono dotati di icone.
 - **Funzionalità avanzate:** Resume, gestione dettagliata dei giri, riepilogo dettagliato.
 - **Nota:** Il tasto Stop non registra salva il giro, infatti è pensato solo per fermare il crometro per falsa partenza o per altre possibili necessità.
+>>>>>>> 6611f74f8d8c59eb936b842c84257497bc1f991f
 
 ---
 
@@ -204,6 +208,34 @@ Linee guida progetti UF07WEB.pdf
 - I file JS seguono la convenzione `numero-funzionalità-versione.js`.
 - Commit organizzati secondo [Conventional Commits](https://www.conventionalcommits.org/it/v1.0.0/).
 - Nessuna dipendenza esterna: solo HTML, CSS, JS puro.
+
+---
+
+## 🌱 Procedura per nuove funzionalità tramite branch `dev`
+
+> **Nota:** Tutte le nuove funzionalità, bugfix e modifiche devono essere sviluppate sul branch `dev`.  
+> Una volta testate e validate, le modifiche verranno integrate nel branch `main` tramite pull request.
+
+### Come contribuire
+
+1. **Clona il repository e passa al branch `dev`:**
+   ```sh
+   git clone https://github.com/GrassiEmmanuele01/Grassi-EsameUF07.git
+   cd Grassi-EsameUF07
+   git checkout dev
+   ```
+
+2. **Sviluppa e testa localmente.**
+   - Apri i file HTML nella cartella `projects/` per testare le app.
+   - Usa solo browser moderni (Chrome, Edge, Firefox).
+
+3. **Assicurati che il codice sia documentato con JSDoc e rispetti la struttura del progetto.**
+
+4. **Fai commit seguendo la convenzione Conventional Commits.**
+
+5. **Apri una pull request verso `dev` per la revisione.**
+
+6. **Quando la funzionalità è pronta e testata, verrà integrata nel branch `main` tramite pull request.**
 
 ---
 
