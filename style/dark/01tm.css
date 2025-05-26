@@ -1,22 +1,22 @@
 /* VERSIONE BASE */
 .task-list {
-    background-color: #1e1e1e;
+    background-color: #2e2e2e;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    border: 1px solid #333;
+    border: 1px solid #444;
     margin-top: 30px;
     transition: box-shadow 0.3s ease;
 }
 
 .task-list:hover {
-    box-shadow: 0 6px 18px rgba(255, 255, 255, 0.05);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 }
 
 .task-list h2 {
     font-size: 1.2rem;
     margin-bottom: 12px;
-    color: #ffffff;
+    color: #f5f5f5;
     text-align: center;
 }
 
@@ -31,7 +31,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #2a2a2a;
+    background-color: #383838;
     padding: 12px 16px;
     margin-bottom: 10px;
     border-radius: 6px;
@@ -40,12 +40,13 @@
 }
 
 .task-item:hover {
-    background-color: #333333;
+    background-color: #424242;
     transform: translateX(-3px);
 }
 
 .task-item button {
     font-size: 12px;
+    font-style: bold;
     padding: 6px 10px;
     margin-left: 5px;
     border-radius: 4px;
@@ -62,31 +63,31 @@
 }
 
 .task-column {
-    background-color: #1e1e1e;
+    background-color: #2e2e2e;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    border: 1px solid #333;
+    border: 1px solid #444;
     flex: 1;
     min-width: 250px;
     transition: box-shadow 0.3s ease;
 }
 
 .task-column:hover {
-    box-shadow: 0 6px 18px rgba(255, 255, 255, 0.05);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 }
 
 .task-column h2 {
     font-size: 1.2rem;
     margin-bottom: 12px;
-    color: #ffffff;
+    color: #f5f5f5;
 }
 
 .task-column li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #2a2a2a;
+    background-color: #383838;
     padding: 12px 16px;
     margin-bottom: 10px;
     border-radius: 6px;
@@ -95,50 +96,50 @@
 }
 
 .task-column li:hover {
-    background-color: #333333;
+    background-color: #424242;
     transform: translateX(-3px);
 }
 
 .task-column li.status-todo {
-    border-left-color: #e74c3c;
+    border-left-color: #e53935;
 }
 
 .task-column li.status-inprogress {
-    border-left-color: #f1c40f;
+    border-left-color: #f5c542;
 }
 
 .task-column li.status-completed {
-    border-left-color: #2ecc71;
+    border-left-color: #4caf50;
 }
 
 /* Bottoni distintivi */
 button.add-task,
 button.edit-task,
 button.restore-task {
-    background-color: #79a7ff;
-    color: #121212;
+    background-color: #7ca6f7;
+    color: #fff;
 }
 
 button.reset-filters {
-    background-color: #f1c40f;
+    background-color: #f5c542;
     color: #121212;
 }
 
 button.todo {
-    background-color: #e74c3c;
+    background-color: #e53935;
 }
 
 button.inprogress {
-    background-color: #f1c40f;
+    background-color: #f5c542;
     color: #121212;
 }
 
 button.completed {
-    background-color: #2ecc71;
+    background-color: #4caf50;
 }
 
 button.remove-task {
-    background-color: #e74c3c;
+    background-color: #e53935;
 }
 
 button.delete-permanently {
@@ -146,24 +147,24 @@ button.delete-permanently {
 }
 
 button.disabled {
-    background-color: #444;
-    color: #888;
+    background-color: #555;
+    color: #aaa;
     cursor: not-allowed;
 }
 
 /* Sezione Eliminati */
 .deleted-footer {
-    background-color: #2a2a2a;
-    border: 1px solid #444;
+    background-color: #383838;
+    border: 1px solid #555;
     padding: 20px;
     margin-top: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transition: box-shadow 0.3s ease;
 }
 
 .deleted-footer:hover {
-    box-shadow: 0 6px 18px rgba(255, 255, 255, 0.05);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 }
 
 .deleted-footer h2 {
@@ -177,7 +178,7 @@ button.disabled {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #2a2a2a;
+    background-color: #383838;
     padding: 12px 16px;
     margin-bottom: 10px;
     border-radius: 6px;
@@ -186,5 +187,5 @@ button.disabled {
 }
 
 .deleted-footer li:hover {
-    background-color: #333333;
+    background-color: #424242;
 }

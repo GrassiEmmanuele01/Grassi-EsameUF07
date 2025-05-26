@@ -12,8 +12,9 @@ html {
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #121212;
-    color: #f5f5f5;
+    background-color: #2e2e2e;
+    /* Grigio antracite */
+    color: #e0e0e0;
     line-height: 1.6;
     padding: 40px 20px;
     text-align: center;
@@ -23,7 +24,7 @@ body {
 h1,
 h2,
 h3 {
-    color: #ffffff;
+    color: #f5f5f5;
     margin-bottom: 15px;
     font-weight: 600;
 }
@@ -38,25 +39,28 @@ h2 {
 
 /* Link */
 a {
-    color: #79a7ff;
+    color: #7ca6f7;
+    /* Blu pastello */
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 a:hover {
-    color: #a6c8ff;
+    color: #a9cfff;
 }
 
 /* Container principale */
 .container {
     max-width: 900px;
     margin: 0 auto;
-    background-color: #1e1e1e;
+    background-color: #383838;
+    /* Grigio medio */
     border-radius: 12px;
     padding: 30px;
-    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     position: relative;
-    border: 1px solid #333;
+    border: 1px solid #4a4a4a;
+    text-align: center;
 }
 
 .container h2,
@@ -69,7 +73,7 @@ a:hover {
     top: 20px;
     right: 25px;
     font-size: 14px;
-    color: #79a7ff;
+    color: #7ca6f7;
     text-decoration: none;
     font-weight: 500;
     transition: all 0.3s ease;
@@ -77,8 +81,8 @@ a:hover {
 }
 
 .back-to-home:hover {
-    color: #a6c8ff;
-    border-bottom-color: #a6c8ff;
+    color: #a9cfff;
+    border-bottom-color: #a9cfff;
 }
 
 /* Input */
@@ -91,21 +95,22 @@ input[type="text"] {
     border-radius: 8px;
     margin: 10px auto;
     display: block;
-    background-color: #2a2a2a;
-    color: #fff;
+    background-color: #3d3d3d;
+    /* Grigio chiaro */
+    color: #f0f0f0;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input[type="text"]:focus {
     outline: none;
-    border-color: #79a7ff;
-    box-shadow: 0 0 8px rgba(121, 167, 255, 0.2);
+    border-color: #7ca6f7;
+    box-shadow: 0 0 8px rgba(124, 166, 247, 0.2);
 }
 
-/* Bottone generico */
+/* Bottone primario - blu */
 button {
-    background-color: #79a7ff;
-    color: #121212;
+    background-color: #4a78c4;
+    color: #fff;
     border: none;
     padding: 10px 20px;
     font-size: 14px;
@@ -117,17 +122,35 @@ button {
 }
 
 button:hover {
-    background-color: #a6c8ff;
+    background-color: #6b9cd6;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(121, 167, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(74, 120, 196, 0.3);
 }
 
 button:disabled {
-    background-color: #444;
-    color: #888;
+    background-color: #555;
+    color: #aaa;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
+}
+
+/* Bottone rosso - errore */
+button.red {
+    background-color: #d15050;
+}
+
+button.red:hover {
+    background-color: #e07070;
+}
+
+/* Bottone verde - successo */
+button.green {
+    background-color: #5cb874;
+}
+
+button.green:hover {
+    background-color: #7bc68d;
 }
 
 /* Sezione filtri */
@@ -140,18 +163,18 @@ button:disabled {
 .filters input[type="text"] {
     padding: 8px 14px;
     font-size: 14px;
-    border: 1px solid #555;
+    border: 1px solid #666;
     border-radius: 6px;
     margin-right: 10px;
-    background-color: #2a2a2a;
-    color: white;
+    background-color: #3d3d3d;
+    color: #f0f0f0;
     transition: border-color 0.3s ease;
 }
 
 .filters select:focus,
 .filters input[type="text"]:focus {
     outline: none;
-    border-color: #79a7ff;
+    border-color: #7ca6f7;
 }
 
 /* Progetti Griglia */
@@ -163,24 +186,24 @@ button:disabled {
 }
 
 .project-column {
-    background-color: #2a2a2a;
+    background-color: #3d3d3d;
     padding: 25px 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid #333;
+    border: 1px solid #555;
     text-align: center;
 }
 
 .project-column:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 .project-column h2 {
     font-size: 1.2rem;
     margin-bottom: 15px;
-    color: #ffffff;
+    color: #f5f5f5;
 }
 
 .project-column .button-container {
