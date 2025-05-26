@@ -56,6 +56,7 @@ function deletePermanently(deletedIndex) {
     confirm("Sei sicuro di voler rimuovere definitivamente questa attività?")
   ) {
     deletedTasks.splice(deletedIndex, 1);
+    saveToLocalStorage();
     renderTasks();
   }
 }
