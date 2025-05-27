@@ -201,8 +201,13 @@ button.remove-task {
     background-color: #e74c3c;
     /* Rosso scuro */
     color: white;
-    height: 40px;
-    width: 180px;
+    font-size: 16px;
+    height: 60px;
+    width: 200px;
+    font-weight: bold;  
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
 }
 
 button.edit-task {
