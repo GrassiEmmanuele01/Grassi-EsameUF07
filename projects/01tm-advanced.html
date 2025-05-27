@@ -1,65 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Manager - Avanzato</title>
-    <link rel="stylesheet" href="../style/light/style.css">
-    <link rel="stylesheet" href="../style/light/01tm.css">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager - Avanzato</title>
+  <link rel="stylesheet" href="../style/light/style.css">
+  <link rel="stylesheet" href="../style/light/01tm.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css ">
+</head>
+<body>
+  <!-- Interruttore Sole-Luna -->
+  <label class="theme-switch">
+    <input type="checkbox" id="themeToggle">
+    <span class="slider"></span>
+    <i class="fas fa-moon moon-icon"></i>
+    <i class="fas fa-sun sun-icon"></i>
+  </label>
+  <a href="index.html" class="back-to-home">Torna alla Home</a>
+  <h1>Task Manager - Avanzato</h1>
+  <input type="text" id="taskInput" placeholder="Inserisci un'attività">
+  <input type="date" id="deadlineInput" placeholder="Scadenza">
+  <select id="prioritySelect">
+    <option value="high">Alta 🟩</option>
+    <option value="medium" selected>Media 🟨</option>
+    <option value="low">Bassa 🟥</option>
+  </select>
+  <button onclick="addTask()">Aggiungi</button>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css ">
-  </head>
-  <body>
-    <!-- Interruttore Sole-Luna -->
-    <label class="theme-switch">
-      <input type="checkbox" id="themeToggle">
-      <span class="slider"></span>
-      <i class="fas fa-moon moon-icon"></i>
-      <i class="fas fa-sun sun-icon"></i>
-    </label>
-    <a href="index.html" class="back-to-home">Torna alla Home</a>
-    <h1>Task Manager - Avanzato</h1>
-    <input type="text" id="taskInput" placeholder="Inserisci un'attività">
-    <select id="prioritySelect">
-      <option value="high">Alta 🟩</option>
-      <option value="medium" selected>Media 🟨</option>
-      <option value="low">Bassa 🟥</option>
+  <div class="filters">
+    <label>Filtra per stato:</label>
+    <select id="filterStatus" onchange="filterTasks()">
+      <option value="all">Tutti</option>
+      <option value="todo">Da fare</option>
+      <option value="inprogress">In corso</option>
+      <option value="completed">Completata</option>
     </select>
-    <button onclick="addTask()">Aggiungi</button>
+    <input type="text" id="searchInput" placeholder="Cerca per nome" oninput="filterTasks()">
+    <button onclick="resetFilters()">Reset Filtri</button>
+  </div>
 
-    <div class="filters">
-      <label>Filtra per stato:</label>
-      <select id="filterStatus" onchange="filterTasks()">
-        <option value="all">Tutti</option>
-        <option value="todo">Da fare</option>
-        <option value="inprogress">In corso</option>
-        <option value="completed">Completata</option>
-      </select>
-      <input type="text" id="searchInput" placeholder="Cerca per nome" oninput="filterTasks()">
-      <button onclick="resetFilters()">Reset Filtri</button>
+  <div class="task-columns">
+    <div class="task-column">
+      <h2>Da Fare</h2>
+      <ul id="todoList"></ul>
     </div>
-
-    <div class="task-columns">
-      <div class="task-column">
-        <h2>Da Fare</h2>
-        <ul id="todoList"></ul>
-      </div>
-      <div class="task-column">
-        <h2>In Corso</h2>
-        <ul id="inProgressList"></ul>
-      </div>
-      <div class="task-column">
-        <h2>Completata</h2>
-        <ul id="completedList"></ul>
-      </div>
+    <div class="task-column">
+      <h2>In Corso</h2>
+      <ul id="inProgressList"></ul>
     </div>
-  
-    <footer class="deleted-footer">
-      <h2>Eliminati di recente</h2>
-      <ul id="deletedList"></ul>
-    </footer>
+    <div class="task-column">
+      <h2>Completata</h2>
+      <ul id="completedList"></ul>
+    </div>
+  </div>
 
-    <script src="../js/01tm-advanced.js"></script>
-    <script src="../js/theme.js"></script>
-  </body>
+  <footer class="deleted-footer">
+    <h2>Eliminati di recente</h2>
+    <ul id="deletedList"></ul>
+  </footer>
+
+  <script src="../js/01tm-advanced.js"></script>
+  <script src="../js/theme.js"></script>
+</body>
 </html>

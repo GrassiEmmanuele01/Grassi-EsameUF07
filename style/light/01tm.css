@@ -52,13 +52,6 @@
     font-weight: 500;
 }
 
-.task-item button {
-    font-size: 12px;
-    padding: 6px 10px;
-    margin-left: 5px;
-    border-radius: 4px;
-    font-weight: 500;
-}
 /* Versione Avanzata - Task Columns */
 .task-columns {
     display: flex;
@@ -91,8 +84,8 @@
 
 .task-column li {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    /* Organizza contenuti verticalmente */
     background-color: #f8f9fa;
     padding: 12px 16px;
     margin-bottom: 10px;
@@ -118,11 +111,61 @@
     border-left-color: #2ecc71;
 }
 
+/* Stile per l'intestazione della task (nome, priorità, scadenza) */
+.task-header {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.task-header strong {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.priority-label {
+    font-size: 0.9em;
+    color: #555;
+}
+
+.deadline {
+    font-size: 0.9em;
+    color: #555;
+}
+
+.deadline-near {
+    color: orange;
+    font-weight: bold;
+}
+
+.deadline-overdue {
+    color: red;
+    font-weight: bold;
+}
+
+/* Stile per il contenitore dei bottoni */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* Spazio tra i bottoni */
+}
+
+/* Linea di divisione */
+.separator {
+    margin: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
 /* Bottoni distintivi */
 button.add-task,
 button.edit-task,
 button.restore-task {
     background-color: #27aeef;
+    height: 60px;
+    width: 200px;
 }
 
 button.reset-filters {
@@ -132,44 +175,72 @@ button.reset-filters {
 
 button.todo {
     background-color: #e74c3c;
-    height: 50px;
+    /* Rosso scuro */
+    height: 40px;
     width: 180px;
+    color: white;
 }
 
 button.inprogress {
     background-color: #f1c40f;
-    color: #2d3436;
-    height: 50px;
+    /* Giallo brillante */
+    color: white;
+    height: 40px;
     width: 180px;
 }
 
 button.completed {
     background-color: #2ecc71;
-    height: 50px;
+    /* Verde chiaro */
+    color: white;
+    height: 40px;
     width: 180px;
 }
 
 button.remove-task {
     background-color: #e74c3c;
-    height: 50px;
+    /* Rosso scuro */
+    color: white;
+    height: 40px;
     width: 180px;
 }
+
 button.edit-task {
-    height: 50px;
+    height: 40px;
     width: 180px;
+    background-color: #27aeef;
+    /* Blu chiaro */
+    color: white;
 }
+
 .update-priority {
-    display: flex;
     align-items: center;
     background-color: #ffa500;
+    /* Arancione */
     border-radius: 6px;
-    height: 50px;
+    height: 40px;
     width: 180px;
-    margin-left: 20px;
+    color: white;
+    text-align: center;
+}
+.update-deadline{
+    align-items: center;
+    background-color:#008000;
+    /* Arancione */
+    border-radius: 6px;
+    height: 40px;
+    width: 180px;
+    color: white;
+    text-align: center;
 }
 
 button.delete-permanently {
     background-color: #8e44ad;
+    /* Viola scuro */
+    color: white;
+    height: 60px;
+    width: 200px;
+    display: flex;
 }
 
 button.disabled {
@@ -177,6 +248,7 @@ button.disabled {
     color: #666;
     cursor: not-allowed;
 }
+
 #searchInput {
     width: 100%;
     max-width: 400px;
@@ -223,6 +295,7 @@ button.disabled {
     border-left: 5px solid #e53935;
 }
 
+
 .deleted-footer li:hover {
     background-color: #ecf0f1;
 }
@@ -240,5 +313,32 @@ button.disabled {
 
 .priority-low {
     border-left: 5px solid red;
-    /* Bassa priorità */ }
+    /* Bassa priorità */
+}
 
+/* Allinea i bottoni "azione" in due righe */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    /* Organizza le righe verticalmente */
+}
+
+.action-row {
+    display: flex;
+    gap: 10px;
+    /* Spazio tra i bottoni nella stessa riga */
+    justify-content: space-between;
+    /* Allinea i bottoni lateralmente */
+}
+
+/* Dimensioni uniformi per tutti i bottoni */
+.action-row button {
+    flex: 1;
+    /* Occupa lo stesso spazio orizzontale */
+    height: 40px;
+    /* Altezza fissa */
+    margin-bottom: 10px;
+    /* Spazio verticale tra righe */ 
+    text-align: center;
+    align-items: center;
+}

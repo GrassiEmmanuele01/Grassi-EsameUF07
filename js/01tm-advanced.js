@@ -1,4 +1,6 @@
-// Inizializzazione ID counter e liste
+/**
+ * Inizializzazione ID counter e liste
+ */
 let taskIdCounter =
   parseInt(localStorage.getItem("taskIdCounterAdvanced")) || 1;
 let tasks = JSON.parse(localStorage.getItem("tasksAdvanced")) || [];
@@ -15,19 +17,33 @@ function saveToLocalStorage() {
 }
 
 /**
- * Aggiunge una nuova attività con stato "todo" e priorità "medium" se il nome è valido.
+ * Aggiunge una nuova attività con stato "todo" se il nome è valido.
  */
 function addTask() {
   const input = document.getElementById("taskInput");
+  const deadlineInput = document.getElementById("deadlineInput"); // Campo per la scadenza
+  const prioritySelect = document.getElementById("prioritySelect"); // Campo per la priorità
   const name = input.value.trim();
+  const deadline = deadlineInput.value || null; // Scadenza opzionale
+  const priority = prioritySelect.value;
+
   if (!name) {
     alert("Inserisci un nome valido!");
     return;
   }
-  tasks.push({ id: taskIdCounter++, name, status: "todo", priority: "medium" });
+
+  tasks.push({
+    id: taskIdCounter++,
+    name,
+    status: "todo",
+    priority: priority,
+    deadline: deadline,
+  });
+
   filterTasks();
   saveToLocalStorage();
   input.value = "";
+  deadlineInput.value = ""; // Resetta il campo della scadenza
 }
 
 /**
@@ -138,24 +154,21 @@ function deletePermanently(taskId) {
 }
 
 /**
- * Filtra le attività per stato e ricerca, e le ordina per priorità.
+ * Filtra le attività per stato e ricerca.
  */
 function filterTasks() {
   const filterStatus = document.getElementById("filterStatus").value;
   const searchQuery = document
     .getElementById("searchInput")
     .value.toLowerCase();
-
   let filteredTasks = tasks.filter((task) => {
     const matchesStatus =
       filterStatus === "all" || task.status === filterStatus;
     const matchesSearch = task.name.toLowerCase().includes(searchQuery);
     return matchesStatus && matchesSearch;
   });
-
   // Ordina le attività filtrate per priorità
   filteredTasks = sortTasksByPriority(filteredTasks);
-
   renderTasks(filteredTasks);
 }
 
@@ -186,12 +199,28 @@ function renderTasks(filteredTasks = tasks) {
   filteredTasks.forEach((task) => {
     const listItem = document.createElement("li");
     listItem.className = `status-${task.status} priority-${task.priority}`;
+
+    // Controlla la scadenza
+    const deadlineStatus = checkDeadline(task.deadline);
+    let deadlineAlert = "";
+    if (deadlineStatus === "near") {
+      deadlineAlert = '<span class="deadline-near">❗ Scadenza vicina</span>';
+    } else if (deadlineStatus === "overdue") {
+      deadlineAlert =
+        '<span class="deadline-overdue">⚠️ Scadenza superata</span>';
+    }
+
     listItem.innerHTML = `
-      <div class="task-content">
-        <span>${task.name}</span>
-        <span class="priority-label">${formatPriority(task.priority)}</span>
-      </div>
-      <div class="button-row">
+    <div class="task-header">
+      <strong>${task.name}</strong>
+      <span class="priority-label">${formatPriority(task.priority)}</span>
+      ${
+        task.deadline ? `<span class="deadline">📅 ${task.deadline}</span>` : ""
+      }
+      ${deadlineAlert}
+    </div>
+    <div class="button-container">
+      <div class="status-buttons">
         ${
           task.status !== "todo"
             ? `<button class="todo" onclick="changeStatus(${task.id}, 'todo')">Da fare ⏳</button>`
@@ -208,18 +237,27 @@ function renderTasks(filteredTasks = tasks) {
             : `<button class="completed disabled" disabled>Completata ✅</button>`
         }
       </div>
-      <div class="button-row">
-        <button class="edit-task" onclick="promptUpdate(${
-          task.id
-        })">Modifica ✏️</button>
-        <button class="remove-task" onclick="removeTask(${
-          task.id
-        })">Rimuovi ❌</button>
-        <button class="update-priority" onclick="promptUpdatePriority(${
-          task.id
-        })">Cambia Priorità ⚡</button>
+      <hr class="separator">
+      <div class="action-buttons">
+        <div class="action-row">
+          <button class="edit-task" onclick="promptUpdate(${
+            task.id
+          })">Modifica ✏️</button>
+          <button class="remove-task" onclick="removeTask(${
+            task.id
+          })">Rimuovi ❌</button>
+        </div>
+        <div class="action-row">
+          <button class="update-priority" onclick="promptUpdatePriority(${
+            task.id
+          })">Modifica Priorità ⚡</button>
+          <button class="update-deadline" onclick="updateDeadline(${
+            task.id
+          })">Modifica Scadenza 📅</button>
+        </div>
       </div>
-    `;
+    </div>
+  `;
 
     switch (task.status) {
       case "todo":
@@ -237,12 +275,15 @@ function renderTasks(filteredTasks = tasks) {
   // Mostra anche gli eliminati se necessario
   deletedTasks.forEach((task) => {
     const deletedItem = document.createElement("li");
-    deletedItem.className = `status-eliminato priority-${task.priority}`;
+    deletedItem.className = "status-eliminato";
     deletedItem.innerHTML = `
       <span>${task.name} (Eliminato da: ${formatStatus(
       task.originalStatus
     )})</span>
       <span class="priority-label">${formatPriority(task.priority)}</span>
+      ${
+        task.deadline ? `<span class="deadline">📅 ${task.deadline}</span>` : ""
+      }
       <div class="button-row">
         <button class="restore-task" onclick="restoreTask(${
           task.id
@@ -287,6 +328,42 @@ function formatStatus(status) {
 }
 
 /**
+ * Restituisce la stringa leggibile per la priorità di una task.
+ * @param {string} priority - Priorità della task.
+ * @returns {string} Priorità leggibile.
+ */
+function formatPriority(priority) {
+  switch (priority) {
+    case "high":
+      return "Alta 🟩";
+    case "medium":
+      return "Media 🟨";
+    case "low":
+      return "Bassa 🟥";
+    default:
+      return "Sconosciuta";
+  }
+}
+
+/**
+ * Controlla lo stato della scadenza di una task.
+ * @param {string|null} deadline - Data di scadenza della task.
+ * @returns {string} Stato della scadenza ("ok", "near", "overdue").
+ */
+function checkDeadline(deadline) {
+  if (!deadline) return "ok"; // Nessuna scadenza impostata
+
+  const today = new Date();
+  const deadlineDate = new Date(deadline);
+  const timeDiff = deadlineDate - today;
+  const daysDiff = timeDiff / (1000 * 60 * 60 * 24); // Differenza in giorni
+
+  if (daysDiff < 0) return "overdue"; // Scadenza superata
+  if (daysDiff <= 3) return "near"; // Scadenza vicina (entro 3 giorni)
+  return "ok"; // Scadenza OK
+}
+
+/**
  * Ordina le attività in base alla priorità.
  * @param {Array} tasks - Array di task da ordinare.
  * @returns {Array} Array ordinato per priorità.
@@ -299,7 +376,7 @@ function sortTasksByPriority(tasks) {
 }
 
 /**
- * Aggiorna la priorità di una attività.
+ * Modifica la priorità di una attività.
  * @param {number} taskId - ID della task da modificare.
  * @param {string} newPriority - Nuova priorità ("high", "medium", "low").
  */
@@ -328,17 +405,30 @@ function promptUpdatePriority(taskId) {
     const priorities = ["high", "medium", "low"];
     const priorityNames = ["Alta 🟩", "Media 🟨", "Bassa 🟥"];
     const currentPriorityIndex = priorities.indexOf(task.priority);
-    const newPriorityIndex = parseInt(
-      prompt(
-        `Seleziona la nuova priorità:\n1. Alta 🟩\n2. Media 🟨\n3. Bassa 🟥`,
-        currentPriorityIndex + 1
-      )
+    const newPriorityIndex = prompt(
+      "Seleziona la nuova priorità:\n1. Alta 🟩\n2. Media 🟨\n3. Bassa 🟥",
+      currentPriorityIndex + 1
     );
-    if (newPriorityIndex >= 1 && newPriorityIndex <= 3) {
-      const selectedPriority = priorities[newPriorityIndex - 1];
-      updatePriority(taskId, selectedPriority);
-    } else {
-      alert("Inserisci un valore valido (1, 2 o 3).");
+    const selectedPriority = priorities[newPriorityIndex - 1];
+    if (selectedPriority) updatePriority(taskId, selectedPriority);
+  }
+}
+
+/**
+ * Modifica la scadenza di una attività.
+ * @param {number} taskId - ID della task da modificare.
+ */
+function updateDeadline(taskId) {
+  const task = findTaskById(tasks, taskId);
+  if (task) {
+    const newDeadline = prompt(
+      "Nuova scadenza (YYYY-MM-DD):",
+      task.deadline || ""
+    );
+    if (newDeadline) {
+      task.deadline = newDeadline;
+      filterTasks();
+      saveToLocalStorage();
     }
   }
 }
@@ -352,20 +442,3 @@ function promptUpdatePriority(taskId) {
 document.addEventListener("DOMContentLoaded", () => {
   filterTasks();
 });
-/**
- * Restituisce la stringa leggibile per la priorità di una task.
- * @param {string} priority - Priorità della task.
- * @returns {string} Priorità leggibile.
- */
-function formatPriority(priority) {
-  switch (priority) {
-    case "high":
-      return "Alta 🟩";
-    case "medium":
-      return "Media 🟨";
-    case "low":
-      return "Bassa 🟥";
-    default:
-      return "Sconosciuta";
-  }
-}
