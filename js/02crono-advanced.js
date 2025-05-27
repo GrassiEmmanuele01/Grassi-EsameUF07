@@ -1,6 +1,3 @@
-/**
- * Variabili globali per gestire il cronometro principale.
- */
 let timerInterval;
 let startTime = null;
 let lapStartTime = null;
@@ -10,15 +7,6 @@ const laps = [];
 let savedSessions = JSON.parse(localStorage.getItem("sessions")) || [];
 let sortOrder = {};
 
-/**
- * Variabili globali per il timer personalizzato.
- */
-let customTimerInterval;
-let customTimerRemaining = 0;
-
-/**
- * Aggiorna lo stato dei pulsanti in base allo stato del cronometro.
- */
 function updateButtonStates() {
   const startBtn = document.querySelector(".btn-start");
   const stopBtn = document.querySelector(".btn-stop");
@@ -50,9 +38,6 @@ function updateButtonStates() {
   }
 }
 
-/**
- * Avvia il cronometro principale.
- */
 function startTimer() {
   if (timerInterval) return;
   hasRunAtLeastOnce = true;
@@ -75,18 +60,12 @@ function startTimer() {
   updateButtonStates();
 }
 
-/**
- * Ferma il cronometro principale.
- */
 function stopTimer() {
   clearInterval(timerInterval);
   timerInterval = null;
   updateButtonStates();
 }
 
-/**
- * Resetta il cronometro principale.
- */
 function resetTimer() {
   stopTimer();
   startTime = null;
@@ -104,9 +83,6 @@ function resetTimer() {
   updateButtonStates();
 }
 
-/**
- * Salva un giro nel cronometro principale.
- */
 function saveLap() {
   const now = Date.now();
   const lapTime = now - lapStartTime;
@@ -116,9 +92,6 @@ function saveLap() {
   renderLaps();
 }
 
-/**
- * Termina la corsa e mostra il riepilogo.
- */
 function endRace() {
   saveLap();
   stopTimer();
@@ -143,10 +116,6 @@ function endRace() {
   };
 }
 
-/**
- * Calcola il riepilogo della corsa.
- * @returns {Object} Oggetto contenente i dettagli della corsa.
- */
 function calculateRaceSummary() {
   if (laps.length === 0) return {};
   const totalLaps = laps.length;
@@ -157,20 +126,33 @@ function calculateRaceSummary() {
   return { totalLaps, totalTime, bestLap, worstLap, averageLap };
 }
 
-/**
- * Aggiorna il display del cronometro principale.
- * @param {number} ms - Tempo in millisecondi.
- */
 function updateTimer(ms) {
   document.getElementById("timer").textContent = formatTime(ms);
 }
 
-/**
- * Aggiorna il display del tempo del giro corrente.
- * @param {number} ms - Tempo in millisecondi.
- */
 function updateLapTimer(ms) {
   document.getElementById("lapTime").textContent = formatTime(ms);
+}
+
+function renderLaps() {
+  const lapsList = document.getElementById("lapsList");
+  lapsList.innerHTML = "";
+  if (laps.length === 0) return;
+  const totalTime = laps.reduce((sum, t) => sum + t, 0);
+  document.getElementById("totalTimeDisplay").textContent =
+    formatTime(totalTime);
+  const bestLap = Math.min(...laps);
+  document.getElementById("bestLap").textContent = formatTime(bestLap);
+  laps.forEach((lapTime, index) => {
+    const formattedTime = formatTime(lapTime);
+    const lapItem = document.createElement("div");
+    lapItem.className = "lap-item";
+    if (lapTime === bestLap) {
+      lapItem.classList.add("best-lap");
+    }
+    lapItem.textContent = `Giro ${index + 1}: ${formattedTime}`;
+    lapsList.appendChild(lapItem);
+  });
 }
 
 /**
@@ -191,41 +173,246 @@ function formatTime(ms) {
 }
 
 /**
- * Avvia il timer personalizzato.
+ * Salva manualmente una sessione con nome scelto dall'utente.
  */
-function startCustomTimer() {
-  const input = document.getElementById("customTimerInput");
-  const timeInSeconds = parseInt(input.value, 10);
-
-  if (isNaN(timeInSeconds) || timeInSeconds <= 0) {
-    alert("Inserisci un tempo valido in secondi.");
-    return;
+function saveSessionManually() {
+  let sessionName = prompt("Inserisci un nome per la sessione:", "Sessione");
+  if (!sessionName || sessionName.trim() === "") {
+    sessionName = "Senza Nome";
   }
-
-  customTimerRemaining = timeInSeconds;
-  updateCustomTimerDisplay();
-
-  clearInterval(customTimerInterval);
-  customTimerInterval = setInterval(() => {
-    if (customTimerRemaining <= 0) {
-      clearInterval(customTimerInterval);
-      alert("Tempo scaduto!"); // Puoi sostituire con un suono o una notifica
-      return;
-    }
-    customTimerRemaining--;
-    updateCustomTimerDisplay();
-  }, 1000);
+  saveSessionToHistory(sessionName);
 }
 
 /**
- * Aggiorna il display del timer personalizzato.
+ * Salva la sessione corrente nello storico.
+ * @param {string} name - Nome della sessione.
  */
-function updateCustomTimerDisplay() {
-  const minutes = Math.floor(customTimerRemaining / 60)
-    .toString()
-    .padStart(2, "0");
-  const seconds = (customTimerRemaining % 60).toString().padStart(2, "0");
-  document.getElementById(
-    "customTimerDisplay"
-  ).textContent = `${minutes}:${seconds}`;
+function saveSessionToHistory(name) {
+  const session = {
+    name,
+    date: new Date().toISOString(),
+    totalTime: formatTime(totalElapsedTime),
+    totalTimeMs: totalElapsedTime,
+    laps: laps.map((lap) => formatTime(lap)),
+    bestLap: formatTime(Math.min(...laps)),
+    totalLaps: laps.length,
+  };
+  savedSessions.push(session);
+  localStorage.setItem("sessions", JSON.stringify(savedSessions));
+  renderSavedSessions();
+}
+
+/**
+ * Mostra tutte le sessioni salvate nella tabella.
+ * @param {Array} [sessions=savedSessions] - Array di sessioni da mostrare.
+ */
+function renderSavedSessions(sessions = savedSessions) {
+  const list = document.getElementById("savedSessionsList");
+  list.innerHTML = "";
+  sessions.forEach((session, index) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+            <td>${session.name}</td>
+            <td>${new Date(session.date).toLocaleString()}</td>
+            <td>${session.totalTime}</td>
+            <td>${session.totalLaps}</td>
+            <td>${session.bestLap}</td>
+            <td class="actions">
+                <button class="view" onclick="viewSessionDetails(${index})"><i class="fas fa-eye"></i> Visualizza</button>
+                <button class="edit" onclick="editSessionName(${index})"><i class="fas fa-edit"></i> Modifica</button><br>
+                <button class="delete" onclick="deleteSession(${index})"><i class="fas fa-trash-alt"></i> Elimina</button>
+                <button class="download" onclick="downloadSingleSession(${index})"><i class="fas fa-download"></i> Scarica</button>
+            </td>
+        `;
+    list.appendChild(row);
+  });
+}
+
+function sortSessions(column) {
+  let sortedSessions = [...savedSessions];
+  if (sortOrder[column] === "asc") {
+    sortOrder[column] = "desc";
+  } else {
+    sortOrder[column] = "asc";
+  }
+  switch (column) {
+    case "name":
+      sortedSessions.sort((a, b) =>
+        sortOrder[column] === "asc"
+          ? a.name.localeCompare(b.name)
+          : b.name.localeCompare(a.name)
+      );
+      break;
+    case "date":
+      sortedSessions.sort((a, b) =>
+        sortOrder[column] === "asc"
+          ? new Date(a.date) - new Date(b.date)
+          : new Date(b.date) - new Date(a.date)
+      );
+      break;
+    case "totalTime":
+      sortedSessions.sort((a, b) =>
+        sortOrder[column] === "asc"
+          ? a.totalTimeMs - b.totalTimeMs
+          : b.totalTimeMs - a.totalTimeMs
+      );
+      break;
+    case "totalLaps":
+      sortedSessions.sort((a, b) =>
+        sortOrder[column] === "asc"
+          ? a.totalLaps - b.totalLaps
+          : b.totalLaps - a.totalLaps
+      );
+      break;
+    case "bestLap":
+      sortedSessions.sort((a, b) =>
+        sortOrder[column] === "asc"
+          ? parseTime(a.bestLap) - parseTime(b.bestLap)
+          : parseTime(b.bestLap) - parseTime(a.bestLap)
+      );
+      break;
+  }
+  document.querySelectorAll("#sessionsTable th").forEach((th) => {
+    th.classList.remove("asc", "desc");
+  });
+  const clickedHeader = document.querySelector(
+    `#sessionsTable th[onclick="sortSessions('${column}')"]`
+  );
+  clickedHeader.classList.add(sortOrder[column]);
+  renderSavedSessions(sortedSessions);
+}
+
+document.getElementById("searchInput").addEventListener("input", (e) => {
+  const query = e.target.value.toLowerCase();
+  const filtered = savedSessions.filter((session) =>
+    session.name.toLowerCase().includes(query)
+  );
+  renderSavedSessions(filtered);
+});
+
+/**
+ * Converte un tempo stringa (mm:ss:ms) in millisecondi.
+ * @param {string} time - Tempo in formato stringa.
+ * @returns {number} Tempo in millisecondi.
+ */
+function parseTime(time) {
+  const [minutes, seconds, milliseconds] = time.split(":").map(Number);
+  return minutes * 60000 + seconds * 1000 + milliseconds;
+}
+
+/**
+ * Mostra i dettagli di una sessione in un alert.
+ * @param {number} index - Indice della sessione.
+ */
+function viewSessionDetails(index) {
+  const session = savedSessions[index];
+  const lapsList = session.laps
+    .map((lap, idx) => `Giro ${idx + 1}: ${lap}`)
+    .join("\n");
+  alert(`Dettagli Sessione:
+Nome: ${session.name}
+Data: ${new Date(session.date).toLocaleString()}
+Tempo Totale: ${session.totalTime}
+Giri Totali: ${session.totalLaps}
+Miglior Giro: ${session.bestLap}
+Tempi Giri:\n${lapsList}`);
+}
+
+/**
+ * Esporta tutte le sessioni salvate in un file JSON.
+ */
+function exportAllSessions() {
+  if (savedSessions.length === 0) {
+    alert("Non ci sono sessioni salvate da esportare.");
+    return;
+  }
+  const dataStr = JSON.stringify(savedSessions, null, 2);
+  const blob = new Blob([dataStr], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "session_history.json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/**
+ * Elimina una sessione dallo storico.
+ * @param {number} index - Indice della sessione da eliminare.
+ */
+function deleteSession(index) {
+  const isConfirmed = confirm("Sei sicuro di voler eliminare questa sessione?");
+  if (isConfirmed) {
+    savedSessions.splice(index, 1);
+    localStorage.setItem("sessions", JSON.stringify(savedSessions));
+    renderSavedSessions();
+  }
+}
+
+/**
+ * Modifica il nome di una sessione salvata.
+ * @param {number} index - Indice della sessione.
+ */
+function editSessionName(index) {
+  const newName = prompt(
+    "Inserisci il nuovo nome per questa sessione:",
+    savedSessions[index].name
+  );
+  if (!newName || newName.trim() === "") {
+    savedSessions[index].name = "Senza Nome";
+  } else {
+    savedSessions[index].name = newName.trim();
+  }
+  localStorage.setItem("sessions", JSON.stringify(savedSessions));
+  renderSavedSessions();
+}
+
+/**
+ * Scarica una singola sessione in formato JSON.
+ * @param {number} index - Indice della sessione.
+ */
+function downloadSingleSession(index) {
+  const session = savedSessions[index];
+  const fileName = `${session.name}_${
+    session.date.replace(/[:T]/g, "-").split(".")[0]
+  }.json`;
+  const blob = new Blob([JSON.stringify(session, null, 2)], {
+    type: "application/json",
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById("importSession").addEventListener("change", (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const importedData = JSON.parse(e.target.result);
+      const importedSessions = Array.isArray(importedData)
+        ? importedData
+        : [importedData];
+      savedSessions = [...savedSessions, ...importedSessions];
+      localStorage.setItem("sessions", JSON.stringify(savedSessions));
+      renderSavedSessions();
+    } catch (error) {
+      alert("Errore durante l'importazione del file.");
+      console.error("Errore:", error);
+    }
+  };
+  reader.readAsText(file);
+});
+
+/**
+ * Gestisce il caricamento di un file JSON per importare sessioni.
+ */
+function handleFileUpload() {
+  document.getElementById("importSession").click();
 }
