@@ -6,8 +6,9 @@
     <title>Cronometro - Avanzato</title>
     <link rel="stylesheet" href="../style/light/style.css" />
     <link rel="stylesheet" href="../style/light/02crono-advanced.css" />
+    <link rel="stylesheet" href="../style/light/02timer-advanced.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Orbitron :wght@500&display=swap"  />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron :wght@500&display=swap"  />
 </head>
 <body>
     <!-- Interruttore Sole-Luna -->
@@ -76,7 +77,16 @@
         <input type="file" id="importSession" accept=".json" style="display: none;" />
     </div>
 
+    <!-- Nuova Sezione Timer Personalizzato -->
+    <div id="custom-timer-section">
+        <h2>Timer Personalizzato</h2>
+        <input type="number" id="customTimerInput" placeholder="Inserisci il tempo in secondi" />
+        <button onclick="startCustomTimer()" class="btn-start"><i class="fas fa-clock"></i> Avvia Timer</button>
+        <div id="customTimerDisplay">00:00</div>
+    </div>
+
     <script src="../js/02crono-advanced.js"></script>
+    <script src="../js/02timer-advanced.js"></script>
     <script src="../js/theme.js"></script>
 </body>
 </html>
