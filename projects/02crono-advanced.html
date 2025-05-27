@@ -80,12 +80,23 @@
         <input type="file" id="importSession" accept=".json" style="display: none;" />
     </div>
 
-    <!-- Nuova Sezione Timer Personalizzato -->
+    <!-- Timer Personalizzato -->
     <div id="custom-timer-section">
         <h2>Timer Personalizzato</h2>
         <input type="number" id="customTimerInput" placeholder="Inserisci il tempo in secondi" />
         <button onclick="startCustomTimer()" class="btn-start"><i class="fas fa-clock"></i> Avvia Timer</button>
+        <button onclick="toggleCustomPauseResume()" class="btn-pause-resume" style="display: none;"><i class="fas fa-pause"></i> Pausa</button>
+        <button onclick="resetCustomTimer()" class="btn-reset" disabled><i class="fas fa-sync-alt"></i> Reset</button>
         <div id="customTimerDisplay">00:00</div>
+    </div>
+
+    <!-- Modalità Pomodoro -->
+    <div id="pomodoro-section">
+        <h2>Modalità Pomodoro</h2>
+        <button onclick="startPomodoro()" class="btn-start"><i class="fas fa-play"></i> Avvia Pomodoro</button>
+        <button onclick="togglePomodoroPauseResume()" class="btn-pause-resume" style="display: none;"><i class="fas fa-pause"></i> Pausa</button>
+        <button onclick="resetPomodoro()" class="btn-reset" disabled><i class="fas fa-sync-alt"></i> Reset</button>
+        <div id="pomodoroStatus">In attesa...</div>
     </div>
 
     <script src="../js/02crono-advanced.js"></script>
