@@ -57,7 +57,8 @@ Linee guida progetti UF07WEB.pdf
 
 - **Base:**
   - Meteo per posizione fissa (temperatura, umidità, pioggia, vento, ecc.).
-  - Rilevamento automatico della città tramite reverse geocoding (funzionalità aggiuntiva).
+  - **Ricerca meteo tramite coordinate o selezione di città italiana** (funzionalità aggiuntiva).
+  - **Rilevamento automatico del nome città tramite reverse geocoding** (funzionalità aggiuntiva).
 - **Avanzato:**
   - Meteo per posizione attuale tramite geolocalizzazione.
   - Dettagli meteo, icone, elenco città famose (funzionalità aggiuntiva).
@@ -70,7 +71,8 @@ Linee guida progetti UF07WEB.pdf
 - **Pagina iniziale** di selezione progetto (`index.html`).
 - **Task Manager:** eliminati di recente e recupero attività cancellate.
 - **Cronometro:** icone sui pulsanti (base e avanzato), riepilogo statistico dettagliato (avanzato).
-- **Meteo:** riconoscimento automatico della città dalle coordinate (base e avanzato), meteo delle città famose (avanzato).
+- **Meteo Base:** ricerca per coordinate o città italiana, riconoscimento automatico della città dalle coordinate.
+- **Meteo Avanzato:** riconoscimento automatico della città dalle coordinate, meteo delle città famose.
 - **UI responsive** e accessibile, con design uniforme tra le app.
 
 ---
@@ -131,6 +133,7 @@ Linee guida progetti UF07WEB.pdf
 
 #### Versione Base (`03meteo-base.html` / `03meteo-base.js`)
 - **Meteo posizione fissa:** Visualizza le condizioni meteo (temperatura, umidità, pioggia, vento, ecc.) di una località predefinita.
+- **Ricerca meteo tramite coordinate o selezione di città italiana.**
 - **Nome città:** Il nome della città viene rilevato automaticamente tramite reverse geocoding.
 - **Dati aggiornati:** I dati sono ottenuti tramite API Open-Meteo e OpenStreetMap Nominatim.
 
