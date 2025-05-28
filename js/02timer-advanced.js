@@ -1,18 +1,23 @@
-/**
- * Variabili globali per il Timer Personalizzato.
- */
+// Variabili globali per il Timer Personalizzato
 let customTimerInterval;
 let customTimerRemaining = 0;
 let customTimerPaused = false;
 
-/**
- * Variabili globali per la Modalità Pomodoro.
- */
+// Variabili globali per la Modalità Pomodoro
 let pomodoroInterval;
 let isWorkTime = true;
 let remainingTime = 0;
 let pomodoroCycle = 0;
 let pomodoroPaused = false;
+let upcomingCycles = [];
+
+/**
+ * Imposta un timer preimpostato.
+ * @param {number} seconds - Durata del timer in secondi.
+ */
+function setCustomTimer(seconds) {
+  document.getElementById("customTimerInput").value = seconds;
+}
 
 /**
  * Avvia il timer personalizzato.
@@ -33,12 +38,19 @@ function startCustomTimer() {
   customTimerInterval = setInterval(() => {
     if (customTimerRemaining <= 0) {
       clearInterval(customTimerInterval);
-      alert("Tempo scaduto!"); // Puoi sostituire con un suono o una notifica
+      alert("Tempo scaduto!"); // Puoi sostituire con un suono
+      document.getElementById("customTimerDisplay").classList.remove("warning");
       return;
+    }
+    if (customTimerRemaining <= 10) {
+      document.getElementById("customTimerDisplay").classList.add("warning");
+    } else {
+      document.getElementById("customTimerDisplay").classList.remove("warning");
     }
     customTimerRemaining--;
     updateCustomTimerDisplay();
   }, 1000);
+  updateCustomButtonStates();
 }
 
 /**
@@ -61,19 +73,27 @@ function toggleCustomPauseResume() {
   if (!customTimerInterval && !customTimerRemaining) return;
 
   if (customTimerPaused) {
-    // Riprendi il timer
     customTimerInterval = setInterval(() => {
       if (customTimerRemaining <= 0) {
         clearInterval(customTimerInterval);
         alert("Tempo scaduto!"); // Puoi sostituire con un suono
+        document
+          .getElementById("customTimerDisplay")
+          .classList.remove("warning");
         return;
+      }
+      if (customTimerRemaining <= 10) {
+        document.getElementById("customTimerDisplay").classList.add("warning");
+      } else {
+        document
+          .getElementById("customTimerDisplay")
+          .classList.remove("warning");
       }
       customTimerRemaining--;
       updateCustomTimerDisplay();
     }, 1000);
     customTimerPaused = false;
   } else {
-    // Metti in pausa il timer
     clearInterval(customTimerInterval);
     customTimerInterval = null;
     customTimerPaused = true;
@@ -89,6 +109,7 @@ function resetCustomTimer() {
   customTimerInterval = null;
   customTimerRemaining = 0;
   customTimerPaused = false;
+  document.getElementById("customTimerDisplay").classList.remove("warning");
   updateCustomTimerDisplay();
   updateCustomButtonStates();
 }
@@ -123,30 +144,81 @@ function updateCustomButtonStates() {
  * Avvia la modalità Pomodoro.
  */
 function startPomodoro() {
-  const workDuration = 25 * 60; // 25 minuti in secondi
-  const breakDuration = 5 * 60; // 5 minuti in secondi
+  const workDuration =
+    parseInt(document.getElementById("workDuration").value, 10) * 60;
+  const shortBreakDuration =
+    parseInt(document.getElementById("shortBreakDuration").value, 10) * 60;
+  const longBreakDuration =
+    parseInt(document.getElementById("longBreakDuration").value, 10) * 60;
+  const cyclesBeforeLongBreak = parseInt(
+    document.getElementById("cyclesBeforeLongBreak").value,
+    10
+  );
 
-  remainingTime = workDuration;
+  if (
+    isNaN(workDuration) ||
+    isNaN(shortBreakDuration) ||
+    isNaN(longBreakDuration) ||
+    workDuration <= 0 ||
+    shortBreakDuration <= 0 ||
+    longBreakDuration <= 0
+  ) {
+    alert("Inserisci durate valide per lavoro, pausa breve e pausa lunga.");
+    return;
+  }
+
+  upcomingCycles = [];
+  for (let i = 0; i < cyclesBeforeLongBreak; i++) {
+    upcomingCycles.push({ type: "Lavoro", duration: workDuration });
+    upcomingCycles.push({ type: "Pausa Breve", duration: shortBreakDuration });
+  }
+  upcomingCycles.push({ type: "Pausa Lunga", duration: longBreakDuration });
+
+  renderUpcomingCycles();
+  startNextPomodoroCycle();
+}
+
+/**
+ * Avvia il prossimo ciclo Pomodoro.
+ */
+function startNextPomodoroCycle() {
+  if (upcomingCycles.length === 0) {
+    alert("Hai completato tutti i cicli Pomodoro!");
+    resetPomodoro();
+    return;
+  }
+
+  const nextCycle = upcomingCycles.shift();
+  isWorkTime = nextCycle.type === "Lavoro";
+  remainingTime = nextCycle.duration;
   pomodoroCycle++;
+
+  document.getElementById("pomodoroStatus").style.backgroundColor = isWorkTime
+    ? "#ff4d4d"
+    : nextCycle.type === "Pausa Breve"
+    ? "#4da6ff"
+    : "#2ecc71";
 
   clearInterval(pomodoroInterval);
   pomodoroInterval = setInterval(() => {
     if (remainingTime <= 0) {
-      if (isWorkTime) {
-        alert("Tempo di pausa!"); // Puoi sostituire con un suono
-        remainingTime = breakDuration;
-      } else {
-        alert("Ritorna al lavoro!"); // Puoi sostituire con un suono
-        remainingTime = workDuration;
-        pomodoroCycle++;
-      }
-      isWorkTime = !isWorkTime;
+      clearInterval(pomodoroInterval);
+      alert(`${isWorkTime ? "Tempo di pausa!" : "Ritorna al lavoro!"}`); // Puoi sostituire con un suono
+      startNextPomodoroCycle();
+      return;
+    }
+    if (remainingTime <= 10) {
+      document.getElementById("pomodoroStatus").classList.add("warning");
+    } else {
+      document.getElementById("pomodoroStatus").classList.remove("warning");
     }
     remainingTime--;
     updatePomodoroDisplay(remainingTime, isWorkTime);
+    updateProgressIndicator(remainingTime, nextCycle.duration);
   }, 1000);
 
   updatePomodoroDisplay(remainingTime, isWorkTime);
+  renderUpcomingCycles();
 }
 
 /**
@@ -166,31 +238,44 @@ function updatePomodoroDisplay(remainingTime, isWorkTime) {
 }
 
 /**
+ * Renderizza i prossimi cicli Pomodoro.
+ */
+function renderUpcomingCycles() {
+  const cycleList = document.getElementById("cycleList");
+  cycleList.innerHTML = "";
+  upcomingCycles.forEach((cycle, index) => {
+    const li = document.createElement("li");
+    li.textContent = `${index + 1}: ${cycle.type} (${Math.ceil(
+      cycle.duration / 60
+    )} min)`;
+    cycleList.appendChild(li);
+  });
+}
+
+/**
  * Mette in pausa o riprende la modalità Pomodoro.
  */
 function togglePomodoroPauseResume() {
   if (!pomodoroInterval) return;
 
   if (pomodoroPaused) {
-    // Riprendi il timer
     pomodoroInterval = setInterval(() => {
       if (remainingTime <= 0) {
-        if (isWorkTime) {
-          alert("Tempo di pausa!"); // Puoi sostituire con un suono
-          remainingTime = 5 * 60;
-        } else {
-          alert("Ritorna al lavoro!"); // Puoi sostituire con un suono
-          remainingTime = 25 * 60;
-          pomodoroCycle++;
-        }
-        isWorkTime = !isWorkTime;
+        clearInterval(pomodoroInterval);
+        alert(`${isWorkTime ? "Tempo di pausa!" : "Ritorna al lavoro!"}`); // Puoi sostituire con un suono
+        startNextPomodoroCycle();
+        return;
+      }
+      if (remainingTime <= 10) {
+        document.getElementById("pomodoroStatus").classList.add("warning");
+      } else {
+        document.getElementById("pomodoroStatus").classList.remove("warning");
       }
       remainingTime--;
       updatePomodoroDisplay(remainingTime, isWorkTime);
     }, 1000);
     pomodoroPaused = false;
   } else {
-    // Metti in pausa il timer
     clearInterval(pomodoroInterval);
     pomodoroInterval = null;
     pomodoroPaused = true;
@@ -208,7 +293,11 @@ function resetPomodoro() {
   remainingTime = 0;
   pomodoroCycle = 0;
   pomodoroPaused = false;
+  upcomingCycles = [];
   document.getElementById("pomodoroStatus").textContent = "In attesa...";
+  document.getElementById("cycleList").innerHTML = "";
+  document.getElementById("pomodoroStatus").style.backgroundColor = "#ffffff";
+  document.getElementById("pomodoroStatus").classList.remove("warning");
   updatePomodoroButtonStates();
 }
 
@@ -232,4 +321,17 @@ function updatePomodoroButtonStates() {
     pauseBtn.style.display = "none";
     resetBtn.disabled = true;
   }
+}
+
+/**
+ * Aggiorna l'indicatore visivo del progresso.
+ * @param {number} remainingTime - Tempo rimanente.
+ * @param {number} totalTime - Tempo totale.
+ */
+function updateProgressIndicator(remainingTime, totalTime) {
+  const progressCircle = document.getElementById("progress-circle");
+  const circumference = 2 * Math.PI * 45;
+  const offset = circumference - (remainingTime / totalTime) * circumference;
+  progressCircle.style.strokeDasharray = `${circumference}`;
+  progressCircle.style.strokeDashoffset = `${offset}`;
 }
