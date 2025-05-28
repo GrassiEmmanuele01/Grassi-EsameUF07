@@ -65,7 +65,7 @@ function toggleSearchMode() {
  * @returns {Promise<string>} Nome della città o località.
  */
 async function reverseGeocode(lat, lon) {
-  const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat= ${lat}&lon=${lon}&zoom=18&addressdetails=1`;
+  const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
 
   try {
       const response = await fetch(url, {
