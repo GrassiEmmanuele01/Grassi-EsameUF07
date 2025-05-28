@@ -1,19 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Meteo App - Base</title>
-        <link rel="stylesheet" href="../style/style.css">
-        <link rel="stylesheet" href="../style/03meteo.css" />
-    </head>
-    <body>
-        <a href="../index.html" class="back-to-home">Torna alla Home</a>
-        <h1>Meteo App - Base</h1>
-        <button onclick="fetchWeather()">Ottieni Meteo</button>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meteo App - Base</title>
+    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/03meteo.css" /> 
+</head>
+<body>
+    <a href="../index.html" class="back-to-home">Torna alla Home</a>
+    <h1>Meteo App - Base</h1>
 
-        <div class="weather-info" id="weatherInfo"></div>
+    <!-- Selezione della modalità di ricerca -->
+    <div>
+        <label for="searchMode">Seleziona modalità di ricerca:</label>
+        <select id="searchMode" onchange="toggleSearchMode()">
+            <option value="coordinates">Coordinate (Latitudine/Longitudine)</option>
+            <option value="city">Città italiana</option>
+        </select>
+    </div>
 
-        <script src="../js/03meteo-base.js"></script>
-    </body>
+    <!-- Interfaccia per le coordinate -->
+    <div id="coordinatesInput">
+        <label for="latitude">Latitudine:</label>
+        <input type="number" id="latitude" step="0.0001" value="46.0679" />
+        <label for="longitude">Longitudine:</label>
+        <input type="number" id="longitude" step="0.0001" value="11.1211" />
+    </div>
+
+    <!-- Interfaccia per la selezione delle città -->
+    <div id="cityInput" style="display: none;">
+        <label for="citySelect">Seleziona una città:</label>
+        <select id="citySelect">
+            <optgroup label="VALLE D'AOSTA">
+                <option value="45.7359,7.3207">Aosta</option>
+            </optgroup>
+        
+            <optgroup label="PIEMONTE">
+                <option value="45.0676,7.6825">Torino</option>
+                <option value="44.8911,8.6267">Alessandria</option>
+                <option value="45.5565,8.1828">Novara</option>
+            </optgroup>
+        
+            <optgroup label="LOMBARDIA">
+                <option value="45.4642,9.1900">Milano</option>
+                <option value="45.5417,9.6664">Bergamo</option>
+                <option value="45.4098,9.2697">Brescia</option>
+            </optgroup>
+        
+            <optgroup label="TRENTINO-ALTO ADIGE">
+                <option value="46.0679,11.1211">Trento</option>
+                <option value="46.4983,11.3555">Bolzano</option>
+            </optgroup>
+        
+            <optgroup label="VENETO">
+                <option value="45.4372,12.3346">Venezia</option>
+                <option value="45.5421,11.5412">Verona</option>
+                <option value="45.2742,11.8751">Padova</option>
+            </optgroup>
+        
+            <optgroup label="FRIULI-VENEZIA GIULIA">
+                <option value="45.6495,13.7768">Trieste</option>
+                <option value="45.9239,13.1939">Udine</option>
+            </optgroup>
+        
+            <optgroup label="LIGURIA">
+                <option value="44.4056,8.9463">Genova</option>
+                <option value="44.0565,8.2517">Savona</option>
+            </optgroup>
+        
+            <optgroup label="EMILIA-ROMAGNA">
+                <option value="44.4938,11.3428">Bologna</option>
+                <option value="44.6485,10.9278">Modena</option>
+                <option value="44.8013,10.3286">Parma</option>
+            </optgroup>
+        
+            <optgroup label="TOSCANA">
+                <option value="43.7696,11.2558">Firenze</option>
+                <option value="43.5167,10.5045">Pisa</option>
+                <option value="43.3179,11.3724">Siena</option>
+            </optgroup>
+        
+            <optgroup label="UMBRIA">
+                <option value="43.1108,12.3911">Perugia</option>
+                <option value="42.9178,12.2448">Terni</option>
+            </optgroup>
+        
+            <optgroup label="MARCHE">
+                <option value="43.6168,13.5189">Ancona</option>
+                <option value="43.9446,12.9014">Pesaro</option>
+            </optgroup>
+        
+            <optgroup label="LAZIO">
+                <option value="41.8919,12.5113">Roma</option>
+                <option value="41.7151,13.2116">Latina</option>
+                <option value="42.3508,12.5625">Viterbo</option>
+            </optgroup>
+        
+            <optgroup label="ABRUZZO">
+                <option value="42.3507,14.1674">L'Aquila</option>
+                <option value="42.4537,14.2189">Pescara</option>
+            </optgroup>
+        
+            <optgroup label="MOLISE">
+                <option value="41.5577,14.6591">Campobasso</option>
+                <option value="41.8503,14.3576">Isernia</option>
+            </optgroup>
+        
+            <optgroup label="CAMPANIA">
+                <option value="40.8518,14.2681">Napoli</option>
+                <option value="40.9599,14.7569">Salerno</option>
+                <option value="41.1167,15.5333">Caserta</option>
+            </optgroup>
+        
+            <optgroup label="PUGLIA">
+                <option value="41.1256,16.8673">Bari</option>
+                <option value="40.6501,18.1718">Lecce</option>
+                <option value="41.5357,16.4628">Foggia</option>
+            </optgroup>
+        
+            <optgroup label="BASILICATA">
+                <option value="40.6394,15.8052">Potenza</option>
+                <option value="40.5074,16.5944">Matera</option>
+            </optgroup>
+        
+            <optgroup label="CALABRIA">
+                <option value="38.9058,16.5944">Reggio Calabria</option>
+                <option value="39.3021,16.2378">Catanzaro</option>
+                <option value="39.7392,16.9047">Cosenza</option>
+            </optgroup>
+        
+            <optgroup label="SICILIA">
+                <option value="38.1157,13.3615">Palermo</option>
+                <option value="37.5079,15.0830">Catania</option>
+                <option value="38.2913,15.5423">Messina</option>
+            </optgroup>
+        
+            <optgroup label="SARDEGNA">
+                <option value="39.2153,9.1106">Cagliari</option>
+                <option value="40.7202,8.5547">Sassari</option>
+                <option value="39.9031,9.0183">Nuoro</option>
+            </optgroup>
+        </select>
+    </div>
+
+    <!-- Bottone per ottenere il meteo -->
+    <button onclick="fetchWeather()">Ottieni Meteo</button>
+
+    <!-- Area di visualizzazione del meteo -->
+    <div class="weather-info" id="weatherInfo"></div>
+
+    <script src="../js/03meteo-base.js"></script>
+</body>
 </html>
