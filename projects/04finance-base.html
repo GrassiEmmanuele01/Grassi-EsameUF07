@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestore di Finanze Personali - Base</title>
+    <link rel="stylesheet" href="../style/light/style.css">
+    <link rel="stylesheet" href="../style/light/04finance.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Gestore di Finanze Personali - Base</h1>
+
+      <!-- Form per inserire transazioni -->
+      <div class="form-container">
+        <h2>Inserisci Transazione</h2>
+        <input type="text" id="description" placeholder="Descrizione">
+        <input type="number" id="amount" placeholder="Importo (+)">
+        <select id="type" class="select-box">
+          <option value="income">Entrata</option>
+          <option value="expense">Uscita</option>
+        </select>
+        <select id="category" class="select-box">
+          <option value="cibo">Cibo</option>
+          <option value="trasporti">Trasporti</option>
+          <option value="divertimento">Divertimento</option>
+          <option value="salario">Salario</option>
+          <option value="affitto">Affitto</option>
+          <option value="altro">Altro</option>
+        </select>
+        <button onclick="addTransaction()" class="btn-primary">Aggiungi</button>
+      </div>
+
+      <!-- Saldo totale -->
+      <div id="balance-container">
+        <h2>Saldo Totale</h2>
+        <span id="balance">€0.00</span>
+      </div>
+
+      <!-- Visualizzazione delle transazioni -->
+      <div class="transactions-container">
+        <h2>Transazioni</h2>
+        <div class="columns">
+          <div class="column income-column">
+            <h3>Entrate</h3>
+            <ul id="incomeList" class="transactions-list"></ul>
+          </div>
+          <div class="column expense-column">
+            <h3>Uscite</h3>
+            <ul id="expenseList" class="transactions-list"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="../js/04finance-base.js"></script>
+  </body>
+</html>
