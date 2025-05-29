@@ -411,3 +411,59 @@ button:disabled {
         min-width: 100%;
     }
 }
+
+/* Contenitore del link */
+.pomodoro-link-container {
+    text-align: center;
+    /* Centra il link */
+    margin-top: 20px;
+    /* Spazio sopra il link */
+}
+
+/* Stile del link */
+.pomodoro-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    /* Testo bianco */
+    background-color: #ff6f61;
+    /* Colore principale (rosso pomodoro) */
+    border-radius: 25px;
+    /* Bordi arrotondati */
+    text-decoration: none;
+    /* Rimuove il sottolineato */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Ombra leggera */
+    transition: all 0.3s ease;
+    /* Effetto di transizione */
+}
+
+/* Icona del link */
+.pomodoro-link i {
+    margin-right: 10px;
+    /* Spazio tra icona e testo */
+    font-size: 20px;
+    /* Dimensione dell'icona */
+}
+
+/* Effetto hover */
+.pomodoro-link:hover {
+    background-color: #ff3b2f;
+    /* Cambia colore su hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    /* Ombra più pronunciata */
+    transform: translateY(-2px);
+    /* Effetto di sollevamento */
+}
+
+/* Effetto attivo (quando si clicca) */
+.pomodoro-link:active {
+    transform: translateY(0);
+    /* Ritorna alla posizione originale */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Ombra normale */
+}

@@ -51,61 +51,13 @@
             <ul id="summaryDetails"></ul>
         </div>
     </div>
-
-    <!-- Timer Personalizzato -->
-    <div id="custom-timer-section">
-        <h2>Timer Personalizzato</h2>
-        <div class="preset-timers">
-            <button onclick="setCustomTimer(300)">5 Minuti</button>
-            <button onclick="setCustomTimer(600)">10 Minuti</button>
-            <button onclick="setCustomTimer(900)">15 Minuti</button>
-            <button onclick="setCustomTimer(1800)">30 Minuti</button>
-        </div>
-        <input type="number" id="customTimerInput" placeholder="Inserisci il tempo in secondi" />
-        <button onclick="startCustomTimer()" class="btn-start"><i class="fas fa-clock"></i> Avvia Timer</button>
-        <button onclick="toggleCustomPauseResume()" class="btn-pause-resume" style="display: none;"><i class="fas fa-pause"></i> Pausa</button>
-        <button onclick="resetCustomTimer()" class="btn-reset" disabled><i class="fas fa-sync-alt"></i> Reset</button>
-        <div id="customTimerDisplay">00:00</div>
+    <div class="pomodoro-link-container">
+        <a href="02timer-advanced.html" class="pomodoro-link">
+            <i class="fas fa-stopwatch"></i> Vai al Timer e Pomodoro
+        </a>
     </div>
-
-    <!-- Modalità Pomodoro -->
-    <div id="pomodoro-section">
-        <h2>Modalità Pomodoro</h2>
-        <div class="pomodoro-settings">
-            <label>
-                Durata Lavoro (min):
-                <input type="number" id="workDuration" value="25" min="1" />
-            </label>
-            <label>
-                Durata Pausa Breve (min):
-                <input type="number" id="shortBreakDuration" value="5" min="1" />
-            </label>
-            <label>
-                Durata Pausa Lunga (min):
-                <input type="number" id="longBreakDuration" value="15" min="1" />
-            </label>
-            <label>
-                Cicli Prima della Pausa Lunga:
-                <input type="number" id="cyclesBeforeLongBreak" value="4" min="1" />
-            </label>
-        </div>
-        <button onclick="startPomodoro()" class="btn-start"><i class="fas fa-play"></i> Avvia Pomodoro</button>
-        <button onclick="togglePomodoroPauseResume()" class="btn-pause-resume" style="display: none;"><i class="fas fa-pause"></i> Pausa</button>
-        <button onclick="resetPomodoro()" class="btn-reset" disabled><i class="fas fa-sync-alt"></i> Reset</button>
-        <div id="pomodoroStatus">In attesa...</div>
-        <div id="progress-indicator">
-            <svg width="100" height="100">
-                <circle cx="50" cy="50" r="45" stroke="#3498db" stroke-width="5" fill="none" />
-                <circle id="progress-circle" cx="50" cy="50" r="45" stroke="#ff4d4d" stroke-width="5" fill="none" />
-            </svg>
-        </div>
-        <div id="upcomingCycles">
-            <h3>Prossimi Cicli:</h3>
-            <ul id="cycleList"></ul>
-        </div>
-    </div>
+    
     <script src="../js/02crono-advanced.js"></script>
-    <script src="../js/02timer-advanced.js"></script>
     <script src="../js/theme.js"></script>
 </body>
 </html>

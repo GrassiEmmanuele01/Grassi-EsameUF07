@@ -1,217 +1,226 @@
-/* Stile Generale */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f9;
-    color: #333;
-    text-align: center;
-}
-
-h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 36px;
-    color: #1e3c72;
-    margin: 20px 0;
-}
-
-.back-to-home {
-    display: inline-block;
-    margin: 10px 0;
-    padding: 10px 20px;
-    background-color: #3498db;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
-}
-
-.back-to-home:hover {
-    background-color: #2980b9;
-}
-
-/* Contenitore del Timer */
-#timer-container {
-    margin: 40px auto;
-    padding: 30px;
-    background-color: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    text-align: center;
-}
-
-#timer {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 96px;
-    color: #1e3c72;
-    background-color: #ffffff;
-    border: 6px solid #3498db;
-    border-radius: 20px;
-    padding: 30px;
-    margin: 20px auto;
-    width: max-content;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
-
-#timer:hover {
-    transform: scale(1.05);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
-}
-
-#extra-timers {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #555;
-}
-
-/* Pulsanti di Controllo */
-.controls {
-    margin: 20px auto;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.controls button {
-    padding: 15px 30px;
-    font-size: 16px;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn-start {
-    background-color: #3498db;
-}
-
-.btn-stop {
-    background-color: #e74c3c;
-}
-
-.btn-reset {
-    background-color: #f1c40f;
-}
-
-.btn-lap {
-    background-color: #2ecc71;
-}
-
-.btn-end {
-    background-color: #9b59b6;
-}
-
-.btn-save {
-    background-color: #1abc9c;
-}
-
-.controls button:hover {
-    opacity: 0.9;
-    transform: scale(1.05);
-}
-
-/* Indicatori Visivi */
-#progress-indicator {
-    margin: 20px auto;
-    text-align: center;
-}
-
-#progress-indicator svg {
-    transform: rotate(-90deg);
-    /* Ruota l'indicatore per iniziare dal basso */
-}
-
-#progress-circle {
-    transition: stroke-dashoffset 1s linear;
-}
-
-/* Timer Personalizzato */
-#custom-timer-section {
-    margin-top: 40px;
-    padding: 30px;
-    background-color: #ffffff;
-    border-radius: 15px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    border: 1px solid #eee;
-}
-
-.preset-timers {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.preset-timers button {
-    padding: 10px 20px;
-    font-size: 14px;
-    border-radius: 6px;
-    border: none;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background-color: #3498db;
-}
-
-.preset-timers button:hover {
-    opacity: 0.9;
-    transform: scale(1.05);
-}
-
-#customTimerInput {
-    padding: 12px 16px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    width: 100%;
-    max-width: 300px;
-    margin-bottom: 20px;
-    transition: border-color 0.3s ease;
-}
-
-#customTimerInput:focus {
-    border-color: #3498db;
-    outline: none;
-    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
-}
-
-#customTimerDisplay {
+/* Timer principale */
+#customTimerDisplay,
+#pomodoroStatus {
     font-family: 'Orbitron', sans-serif;
     font-size: 48px;
-    color: #1e3c72;
+    font-weight: bold;
+    color: #1e272e;
     background-color: #ffffff;
     border: 4px solid #3498db;
-    border-radius: 15px;
-    padding: 15px 30px;
-    margin: 20px auto;
+    border-radius: 20px;
+    padding: 20px 30px;
+    margin: 30px auto;
     width: max-content;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
 
-#customTimerDisplay.warning {
-    border-color: red;
-    animation: blink 1s infinite;
+#customTimerDisplay.warning,
+#pomodoroStatus.warning {
+    color: #e74c3c;
+    border-color: #e74c3c;
 }
 
-@keyframes blink {
-    0% {
-        border-color: red;
+#customTimerDisplay:hover,
+#pomodoroStatus:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Indicatore di progresso circolare */
+svg {
+    margin: 20px auto;
+    width: 150px;
+    height: 150px;
+    display: block;
+    position: relative;
+}
+
+#progress-circle {
+    stroke: #ff4d4d;
+    fill: none;
+    stroke-width: 10;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    transition: stroke-dashoffset 0.3s ease;
+}
+
+/* Stato Pomodoro */
+#pomodoroStatus.work {
+    color: #ff4d4d;
+    border-color: #ff4d4d;
+}
+
+#pomodoroStatus.break-short {
+    color: #2ecc71;
+    border-color: #2ecc71;
+}
+
+#pomodoroStatus.break-long {
+    color: #f1c40f;
+    border-color: #f1c40f;
+}
+
+/* Lista dei cicli futuri */
+#cycleList {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    text-align: left;
+}
+
+#cycleList li {
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
+}
+
+#cycleList li span {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Pulsanti di controllo */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+button.btn-start {
+    background-color: #2ecc71;
+}
+
+button.btn-pause-resume {
+    background-color: #f1c40f;
+}
+
+button.btn-reset {
+    background-color: #e74c3c;
+}
+
+button {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Animazione pulsanti */
+button:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(39, 174, 243, 0.5);
+}
+
+/* Input personalizzato */
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 10px auto;
+    display: block;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    outline: none;
+    border-color: #27aeef;
+    box-shadow: 0 0 8px rgba(39, 174, 243, 0.2);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+
+    #customTimerDisplay,
+    #pomodoroStatus {
+        font-size: 36px;
+        padding: 15px 25px;
     }
 
-    50% {
-        border-color: yellow;
+    svg {
+        width: 120px;
+        height: 120px;
     }
 
-    100% {
-        border-color: red;
+    button {
+        padding: 10px 20px;
+        font-size: 14px;
     }
 }
+  
+  /* Task Manager */
+  .task-list {
+    margin-top: 20px;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .task-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .task-item.completed {
+    text-decoration: line-through;
+    color: gray;
+  }
+  
+  .task-item button {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .task-item button:hover {
+    opacity: 0.9;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .container {
+      padding: 20px;
+    }
+  
+    #timer {
+      font-size: 56px;
+      padding: 20px 30px;
+    }
+  
+    svg {
+      width: 120px;
+      height: 120px;
+    }
+  }

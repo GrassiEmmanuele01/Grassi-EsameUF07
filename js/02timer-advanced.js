@@ -11,12 +11,45 @@ let pomodoroCycle = 0;
 let pomodoroPaused = false;
 let upcomingCycles = [];
 
+// Variabili per il Task Manager
+const tasks = [];
+
 /**
- * Imposta un timer preimpostato.
- * @param {number} seconds - Durata del timer in secondi.
+ * Aggiunge un task alla lista.
  */
-function setCustomTimer(seconds) {
-  document.getElementById("customTimerInput").value = seconds;
+function addTask() {
+  const taskInput = document.getElementById("taskInput");
+  const taskName = taskInput.value.trim();
+  if (!taskName) return;
+  tasks.push({ name: taskName, completed: false });
+  taskInput.value = "";
+  renderTasks();
+}
+
+/**
+ * Renderizza i task aggiunti.
+ */
+function renderTasks() {
+  const taskList = document.getElementById("taskList");
+  taskList.innerHTML = "";
+  tasks.forEach((task, index) => {
+    const li = document.createElement("li");
+    li.className = "task-item";
+    if (task.completed) li.classList.add("completed");
+    li.innerHTML = `
+          <span>${task.name}</span>
+          <button onclick="completeTask(${index})">Completato</button>
+        `;
+    taskList.appendChild(li);
+  });
+}
+
+/**
+ * Contrassegna un task come completato.
+ */
+function completeTask(index) {
+  tasks[index].completed = true;
+  renderTasks();
 }
 
 /**
@@ -25,20 +58,17 @@ function setCustomTimer(seconds) {
 function startCustomTimer() {
   const input = document.getElementById("customTimerInput");
   const timeInSeconds = parseInt(input.value, 10);
-
   if (isNaN(timeInSeconds) || timeInSeconds <= 0) {
     alert("Inserisci un tempo valido in secondi.");
     return;
   }
-
   customTimerRemaining = timeInSeconds;
   updateCustomTimerDisplay();
-
   clearInterval(customTimerInterval);
   customTimerInterval = setInterval(() => {
     if (customTimerRemaining <= 0) {
       clearInterval(customTimerInterval);
-      alert("Tempo scaduto!"); // Puoi sostituire con un suono
+      notifyUser("Tempo scaduto!");
       document.getElementById("customTimerDisplay").classList.remove("warning");
       return;
     }
@@ -71,12 +101,11 @@ function updateCustomTimerDisplay() {
  */
 function toggleCustomPauseResume() {
   if (!customTimerInterval && !customTimerRemaining) return;
-
   if (customTimerPaused) {
     customTimerInterval = setInterval(() => {
       if (customTimerRemaining <= 0) {
         clearInterval(customTimerInterval);
-        alert("Tempo scaduto!"); // Puoi sostituire con un suono
+        notifyUser("Tempo scaduto!");
         document
           .getElementById("customTimerDisplay")
           .classList.remove("warning");
@@ -127,7 +156,6 @@ function updateCustomButtonStates() {
   const resetBtn = document.querySelector(
     "#custom-timer-section button.btn-reset"
   );
-
   if (customTimerInterval) {
     startBtn.style.display = "none";
     pauseBtn.style.display = "inline-block";
@@ -173,7 +201,6 @@ function startPomodoro() {
     upcomingCycles.push({ type: "Pausa Breve", duration: shortBreakDuration });
   }
   upcomingCycles.push({ type: "Pausa Lunga", duration: longBreakDuration });
-
   renderUpcomingCycles();
   startNextPomodoroCycle();
 }
@@ -183,27 +210,24 @@ function startPomodoro() {
  */
 function startNextPomodoroCycle() {
   if (upcomingCycles.length === 0) {
-    alert("Hai completato tutti i cicli Pomodoro!");
+    notifyUser("Hai completato tutti i cicli Pomodoro!");
     resetPomodoro();
     return;
   }
-
   const nextCycle = upcomingCycles.shift();
   isWorkTime = nextCycle.type === "Lavoro";
   remainingTime = nextCycle.duration;
   pomodoroCycle++;
-
   document.getElementById("pomodoroStatus").style.backgroundColor = isWorkTime
     ? "#ff4d4d"
     : nextCycle.type === "Pausa Breve"
     ? "#4da6ff"
     : "#2ecc71";
-
   clearInterval(pomodoroInterval);
   pomodoroInterval = setInterval(() => {
     if (remainingTime <= 0) {
       clearInterval(pomodoroInterval);
-      alert(`${isWorkTime ? "Tempo di pausa!" : "Ritorna al lavoro!"}`); // Puoi sostituire con un suono
+      notifyUser(`${isWorkTime ? "Tempo di pausa!" : "Ritorna al lavoro!"}`);
       startNextPomodoroCycle();
       return;
     }
@@ -216,15 +240,12 @@ function startNextPomodoroCycle() {
     updatePomodoroDisplay(remainingTime, isWorkTime);
     updateProgressIndicator(remainingTime, nextCycle.duration);
   }, 1000);
-
   updatePomodoroDisplay(remainingTime, isWorkTime);
   renderUpcomingCycles();
 }
 
 /**
  * Aggiorna il display della modalità Pomodoro.
- * @param {number} remainingTime - Tempo rimanente in secondi.
- * @param {boolean} isWorkTime - Indica se è tempo di lavoro o pausa.
  */
 function updatePomodoroDisplay(remainingTime, isWorkTime) {
   const minutes = Math.floor(remainingTime / 60)
@@ -234,7 +255,7 @@ function updatePomodoroDisplay(remainingTime, isWorkTime) {
   const status = isWorkTime ? "Lavoro" : "Pausa";
   document.getElementById("pomodoroStatus").innerHTML = `
         <strong>${status}</strong>: ${minutes}:${seconds} (Ciclo ${pomodoroCycle})
-    `;
+      `;
 }
 
 /**
@@ -257,12 +278,11 @@ function renderUpcomingCycles() {
  */
 function togglePomodoroPauseResume() {
   if (!pomodoroInterval) return;
-
   if (pomodoroPaused) {
     pomodoroInterval = setInterval(() => {
       if (remainingTime <= 0) {
         clearInterval(pomodoroInterval);
-        alert(`${isWorkTime ? "Tempo di pausa!" : "Ritorna al lavoro!"}`); // Puoi sostituire con un suono
+        notifyUser(`${isWorkTime ? "Tempo di pausa!" : "Ritorna al lavoro!"}`);
         startNextPomodoroCycle();
         return;
       }
@@ -310,7 +330,6 @@ function updatePomodoroButtonStates() {
     "#pomodoro-section button.btn-pause-resume"
   );
   const resetBtn = document.querySelector("#pomodoro-section button.btn-reset");
-
   if (pomodoroInterval) {
     startBtn.style.display = "none";
     pauseBtn.style.display = "inline-block";
@@ -325,8 +344,6 @@ function updatePomodoroButtonStates() {
 
 /**
  * Aggiorna l'indicatore visivo del progresso.
- * @param {number} remainingTime - Tempo rimanente.
- * @param {number} totalTime - Tempo totale.
  */
 function updateProgressIndicator(remainingTime, totalTime) {
   const progressCircle = document.getElementById("progress-circle");
@@ -334,4 +351,19 @@ function updateProgressIndicator(remainingTime, totalTime) {
   const offset = circumference - (remainingTime / totalTime) * circumference;
   progressCircle.style.strokeDasharray = `${circumference}`;
   progressCircle.style.strokeDashoffset = `${offset}`;
+}
+
+/**
+ * Invia notifiche desktop all'utente.
+ */
+function notifyUser(message) {
+  if (Notification.permission === "granted") {
+    new Notification(message);
+  } else if (Notification.permission !== "denied") {
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        new Notification(message);
+      }
+    });
+  }
 }

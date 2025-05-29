@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pomodoro Timer</title>
+    <link rel="stylesheet" href="../style/light/style.css">
+    <link rel="stylesheet" href="../style/light/02timer-advanced.css">
+</head>
+<body>
+     <!-- Interruttore Sole-Luna -->
+     <label class="theme-switch">
+        <input type="checkbox" id="themeToggle">
+        <span class="slider"></span>
+        <i class="fas fa-moon moon-icon"></i>
+        <i class="fas fa-sun sun-icon"></i>
+    </label>
+    <a href="index.html" class="back-to-home">Torna alla Home</a>
+    <h1>Cronometro - Avanzato</h1>
+
+  <div class="container">
+    <!-- Timer Personalizzato -->
+    <h2>Timer Personalizzato</h2>
+    <input type="number" id="customTimerInput" placeholder="Tempo in secondi">
+    <button class="btn-start" onclick="startCustomTimer()">Avvia</button>
+    <button class="btn-pause-resume" onclick="toggleCustomPauseResume()" style="display: none;">Pausa</button>
+    <button class="btn-reset" onclick="resetCustomTimer()">Reset</button>
+    <div id="customTimerDisplay">00:00</div>
+
+    <!-- Modalità Pomodoro -->
+    <h2>Modalità Pomodoro</h2>
+    <label>Lavoro (min): <input type="number" id="workDuration" value="25"></label>
+    <label>Pausa Breve (min): <input type="number" id="shortBreakDuration" value="5"></label>
+    <label>Pausa Lunga (min): <input type="number" id="longBreakDuration" value="15"></label>
+    <label>Cicli prima della Pausa Lunga: <input type="number" id="cyclesBeforeLongBreak" value="4"></label>
+    <button class="btn-start" onclick="startPomodoro()">Avvia Pomodoro</button>
+    <button class="btn-pause-resume" onclick="togglePomodoroPauseResume()" style="display: none;">Pausa</button>
+    <button class="btn-reset" onclick="resetPomodoro()">Reset</button>
+    <div id="pomodoroStatus">In attesa...</div>
+    <svg width="100" height="100">
+      <circle cx="50" cy="50" r="45" id="progress-circle"></circle>
+    </svg>
+    <ul id="cycleList"></ul>
+
+    <!-- Task Manager -->
+    <h2>Gestione Task</h2>
+    <input type="text" id="taskInput" placeholder="Aggiungi un task">
+    <button onclick="addTask()">Aggiungi Task</button>
+    <ul class="task-list" id="taskList"></ul>
+  </div>
+  <script src="../js/02timer-advanced.js"></script>
+</body>
+</html>
