@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Meteo App - Base</title>
-        <link rel="stylesheet" href="../style/light/style.css">
-        <link rel="stylesheet" href="../style/light/03meteo.css" />
+        <link rel="stylesheet" href="../shared/style/light.css">
+        <link rel="stylesheet" href="style/light.css" />
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css ">
     </head>
@@ -17,13 +17,13 @@
             <i class="fas fa-moon moon-icon"></i>
             <i class="fas fa-sun sun-icon"></i>
         </label>
-        <a href="index.html" class="back-to-home">Torna alla Home</a>
+        <a href="../index.html" class="back-to-home">Torna alla Home</a>
         <h1>Meteo App - Base</h1>
         <button onclick="fetchWeather()">Ottieni Meteo</button>
 
         <div class="weather-info" id="weatherInfo"></div>
 
-        <script src="../js/03meteo-base.js"></script>
-        <script src="../js/theme.js"></script>
+        <script src="js/base.js"></script>
+        <script src="../shared/js/theme.js"></script>
     </body>
 </html>
