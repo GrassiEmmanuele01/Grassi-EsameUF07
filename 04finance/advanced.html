@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestore di Finanze Personali - Avanzato</title>
+  <link rel="stylesheet" href="../shared/style/light.css">
+  <link rel="stylesheet" href="style/light.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+</head>
+<body>
+     <!-- Interruttore Sole-Luna -->
+     <label class="theme-switch">
+        <input type="checkbox" id="themeToggle">
+        <span class="slider"></span>
+        <i class="fas fa-moon moon-icon"></i>
+        <i class="fas fa-sun sun-icon"></i>
+    </label>
+    <a href="../index.html" class="back-to-home">Torna alla Home</a>
+  <div class="container">
+    <h1>Gestore di Finanze Personali - Avanzato</h1>
+
+    <!-- Form per inserire transazioni -->
+    <div class="form-container">
+      <h2>Inserisci Transazione</h2>
+      <input type="text" id="description" placeholder="Descrizione">
+      <input type="number" id="amount" placeholder="Importo (+)">
+      <select id="type">
+        <option value="income">Entrata</option>
+        <option value="expense">Uscita</option>
+      </select>
+      <select id="category">
+        <!-- Opzioni delle categorie verranno aggiunte dinamicamente -->
+      </select>
+      <input type="date" id="date" placeholder="Data (opzionale)">
+      <button onclick="addTransaction()">Aggiungi</button>
+    </div>
+
+    <!-- Pulsante per aprire la gestione delle categorie -->
+    <button id="toggleCategoryManager" onclick="toggleCategoryManager()">Gestisci Categorie ▼</button>
+
+    <!-- Zona a comparsa per la gestione delle categorie -->
+    <div id="categoryManager" class="category-manager hidden">
+      <h2>Gestione Categorie</h2>
+      <div class="category-form">
+        <h3>Aggiungi/Modifica Categoria</h3>
+        <input type="text" id="newCategoryName" placeholder="Nome della categoria">
+        <input type="color" id="newCategoryColor" value="#000088">
+        <button onclick="saveCategory()">Salva</button>
+      </div>
+      <div class="categories-list">
+        <h3>Categorie Esistenti</h3>
+        <ul id="categoriesList"></ul>
+      </div>
+    </div>
+
+    <!-- Filtri -->
+    <div class="filters">
+      <h2>Filtra Transazioni</h2>
+      <input type="text" id="filterByName" placeholder="Filtra per nome" oninput="filterTransactions()">
+      <select id="filterByCategory" onchange="filterTransactions()">
+        <option value="all">Tutte le categorie</option>
+        <!-- Opzioni delle categorie verranno aggiunte dinamicamente -->
+      </select>
+      <input type="date" id="filterByDate" placeholder="Filtra per data" oninput="filterTransactions()">
+    </div>
+
+    <!-- Saldo totale -->
+    <div id="balance-container">
+      <h2>Saldo Totale</h2>
+      <span id="balance">€0.00</span>
+    </div>
+
+    <!-- Grafico delle spese -->
+    <div class="chart-container">
+      <h2>Grafico delle Entrate/Uscite</h2>
+      <canvas id="spendingChart" width="400" height="200"></canvas>
+    </div>
+
+    <!-- Legenda delle categorie -->
+    <div class="legend-container">
+      <h2>Legenda</h2>
+      <ul id="categoryLegend"></ul>
+    </div>
+
+    <!-- Visualizzazione delle transazioni -->
+    <div class="transactions-container">
+      <h2>Transazioni</h2>
+      <ul id="transactionsList" class="transactions-list"></ul>
+    </div>
+  </div>
+
+  <script src="js/advanced.js"></script>
+  <script src="../shared/js/theme.js"></script>
+</body>
+</html>

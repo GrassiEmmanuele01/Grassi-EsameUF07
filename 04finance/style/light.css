@@ -23,13 +23,14 @@ input[type="number"]:focus {
 }
 
 /* Select */
-.filters select {
+.select-box {
     width: 100%;
-    max-width: 250px;
-    padding: 12px 20px;
-    font-size: 16px;
+    max-width: 150px;
+    /* Dimensione massima per i selezionatori */
+    padding: 10px 16px;
+    font-size: 14px;
     border: 2px solid #e0e0e0;
-    border-radius: 12px;
+    border-radius: 8px;
     background-color: #f9f9f9;
     color: #333;
     transition: all 0.3s ease;
@@ -40,13 +41,41 @@ input[type="number"]:focus {
     background-position: right 12px center;
     background-size: 16px;
     cursor: pointer;
+    margin-right: 10px;
+    /* Spazio tra i selezionatori */
 }
 
-.filters select:focus {
+.select-box:focus {
     outline: none;
     border-color: #27aeef;
     box-shadow: 0 6px 12px rgba(39, 174, 243, 0.2);
     background-color: #ffffff;
+}
+
+/* Pulsante "Aggiungi" */
+.btn-primary {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    background-color: #27aeef;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0d6efd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+}
+
+/* Contenitore per allineare gli elementi in riga */
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Spazio tra gli elementi */
 }
 
 /* Saldo totale */
@@ -140,58 +169,126 @@ input[type="number"]:focus {
     /* Rosso chiaro per le uscite */
     border-color: #dc3545;
 }
-/* Stili per i selezionatori */
-.select-box {
-    width: 100%;
-    max-width: 150px;
-    /* Dimensione massima per i selezionatori */
-    padding: 10px 16px;
-    font-size: 14px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    color: #333;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 16px;
-    cursor: pointer;
-    margin-right: 10px;
-    /* Spazio tra i selezionatori */
-}
 
-.select-box:focus {
-    outline: none;
-    border-color: #27aeef;
-    box-shadow: 0 6px 12px rgba(39, 174, 243, 0.2);
+/* Grafico spese */
+.chart-container {
+    margin-top: 30px;
     background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    border: 2px solid #e0e0e0;
 }
 
-/* Stile per il pulsante "Aggiungi" */
-.btn-primary {
-    padding: 10px 20px;
-    font-size: 14px;
-    border: none;
-    border-radius: 8px;
-    background-color: #27aeef;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.chart-container canvas {
+    max-width: 100%;
+    height: auto;
 }
 
-.btn-primary:hover {
-    background-color: #0d6efd;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+/* Legenda delle categorie */
+.legend-container {
+    margin-top: 20px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    border: 2px solid #e0e0e0;
+    text-align: left;
 }
 
-/* Contenitore per allineare gli elementi in riga */
-.input-group {
+.legend-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.legend-container li {
     display: flex;
     align-items: center;
-    gap: 10px;
-    /* Spazio tra gli elementi */
+    margin-bottom: 10px;
+}
+
+.legend-container input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.legend-container span {
+    font-size: 14px;
+    color: #333;
+}
+
+.legend-container .color-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+/* Zona a comparsa per la gestione delle categorie */
+.category-manager {
+    margin-top: 20px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    border: 2px solid #e0e0e0;
+    text-align: left;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, padding 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+}
+
+.category-manager.hidden {
+    display: none;
+}
+
+.category-manager.visible {
+    max-height: 500px;
+    padding: 20px;
+    opacity: 1;
+}
+
+.categories-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.categories-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.categories-list .color-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.categories-list button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.categories-list button.edit-btn {
+    background-color: #27aeef;
+    color: white;
+}
+
+.categories-list button.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.categories-list button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

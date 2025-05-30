@@ -39,7 +39,7 @@ function loadDarkStyles() {
   addStyleSheet("../shared/style/dark.css");
   addStyleSheet("../01tm/style/dark.css");
   addStyleSheet("../02crono/style/base-dark.css");
-  addStyleSheet("../02cronostyle/advanced-dark.css");
+  addStyleSheet("../02crono/style/advanced-dark.css");
   addStyleSheet("../03meteo/style/dark.css");
 }
 
@@ -51,7 +51,7 @@ function loadLightStyles() {
   addStyleSheet("../shared/style/light.css");
   addStyleSheet("../01tm/style/light.css");
   addStyleSheet("../02crono/style/base-light.css");
-  addStyleSheet("../02cronostyle/advanced-light.css");
+  addStyleSheet("../02crono/style/advanced-light.css");
   addStyleSheet("../03meteo/style/light.css");
 }
 
