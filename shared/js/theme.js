@@ -36,11 +36,11 @@ document.addEventListener("DOMContentLoaded", function () {
  */
 function loadDarkStyles() {
   unloadAllModeStyles(); // Rimuove eventuali stili esistenti
-  addStyleSheet("../style/dark/style.css");
-  addStyleSheet("../style/dark/01tm.css");
-  addStyleSheet("../style/dark/02crono-advanced.css");
-  addStyleSheet("../style/dark/02crono-base.css");
-  addStyleSheet("../style/dark/03meteo.css");
+  addStyleSheet("../shared/style/dark.css");
+  addStyleSheet("../01tm/style/dark.css");
+  addStyleSheet("../02crono/style/base-dark.css");
+  addStyleSheet("../02cronostyle/advanced-dark.css");
+  addStyleSheet("../03meteo/style/dark.css");
 }
 
 /**
@@ -48,11 +48,11 @@ function loadDarkStyles() {
  */
 function loadLightStyles() {
   unloadAllModeStyles(); // Rimuove eventuali stili esistenti
-  addStyleSheet("../style/light/style.css");
-  addStyleSheet("../style/light/01tm.css");
-  addStyleSheet("../style/light/02crono-advanced.css");
-  addStyleSheet("../style/light/02crono-base.css");
-  addStyleSheet("../style/light/03meteo.css");
+  addStyleSheet("../shared/style/light.css");
+  addStyleSheet("../01tm/style/light.css");
+  addStyleSheet("../02crono/style/base-light.css");
+  addStyleSheet("../02cronostyle/advanced-light.css");
+  addStyleSheet("../03meteo/style/light.css");
 }
 
 /**
